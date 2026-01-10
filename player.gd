@@ -13,41 +13,114 @@ signal hit
 # Vertical impulse applied to the character upon bouncing over a mob in
 # meters per second.
 @export var bounce_impulse = 16
-
 var target_velocity = Vector3.ZERO
 
 @onready var rune_label: Label3D = $RuneLabel
 
-var rune_buffer: Array[String] = []
+# Loaded rune resources
+const RUNE_FIRE := preload("res://spells/runes/elements/element_fire.tres")
+const RUNE_BALL := preload("res://spells/runes/forms/form_ball.tres")
+const RUNE_STRAIGHT := preload("res://spells/runes/motions/motion_straight.tres")
 
+# Current spell state (grammar-enforced)
+var element: Rune = null
+var form: Rune = null
+var motion: Rune = null
 
 func _ready():
-	rune_label.text = ""
+	_update_label()
 
 func _unhandled_input(event):
 	if event.is_action_pressed("rune_element"):
-		_add_rune("FIRE")
+		_try_add_rune(RUNE_FIRE)
 	elif event.is_action_pressed("rune_form"):
-		_add_rune("BALL")
+		_try_add_rune(RUNE_BALL)
 	elif event.is_action_pressed("rune_motion"):
-		_add_rune("STRAIGHT")
+		_try_add_rune(RUNE_STRAIGHT)
 	elif event.is_action_pressed("rune_cast"):
 		_cast_spell()
 
-func _add_rune(rune: String):
-	rune_buffer.append(rune)
-	rune_label.text = " ".join(rune_buffer)
+func _try_add_rune(rune: Rune) -> void:
+	match rune.rune_type:
+		Rune.RuneType.ELEMENT:
+			if element != null:
+				return
+			element = rune
+
+		Rune.RuneType.FORM:
+			if form != null:
+				return
+			form = rune
+
+		Rune.RuneType.MOTION:
+			if motion != null:
+				return
+			motion = rune
+
+	_update_label()
+
+func _update_label():
+	var parts: Array[String] = []
+
+	if element:
+		parts.append(element.display_name)
+	if form:
+		parts.append(form.display_name)
+	if motion:
+		parts.append(motion.display_name)
+
+	rune_label.text = " ".join(parts)
+
+func _is_spell_complete() -> bool:
+	return element != null and form != null and motion != null
+
+func _has_any_runes() -> bool:
+	return element != null or form != null or motion != null
 
 func _cast_spell():
-	if rune_buffer.is_empty():
+	if not _has_any_runes():
+		print("no runes")
 		return
 
-	await _pulse_label()
+	if not _is_spell_complete():
+		print("incomplete")
+		await _fizzle_spell()
+		return
 
-	rune_buffer.clear()
-	rune_label.text = ""
+	await _success_pulse()
+	_clear_spell()
 
-func _pulse_label() -> void:
+func _fizzle_spell():
+	await _fizzle_pulse()
+	_clear_spell()
+
+func _clear_spell():
+	element = null
+	form = null
+	motion = null
+	_update_label()
+
+func _fizzle_pulse() -> void:
+	var tween := create_tween()
+	tween.set_trans(Tween.TRANS_SINE)
+	tween.set_ease(Tween.EASE_OUT)
+
+	var original_scale := rune_label.scale
+	var shrink_scale := original_scale * 0.85
+
+	# Optional: dim color
+	var original_modulate := rune_label.modulate
+	var fizzle_color := Color(0.6, 0.6, 0.6, 1.0)
+
+	tween.tween_property(rune_label, "scale", shrink_scale, 0.08)
+	tween.parallel().tween_property(rune_label, "modulate", fizzle_color, 0.08)
+
+	tween.tween_property(rune_label, "scale", original_scale, 0.08)
+	tween.parallel().tween_property(rune_label, "modulate", original_modulate, 0.08)
+
+	await tween.finished
+
+func _success_pulse() -> void:
 	var tween := create_tween()
 	tween.set_trans(Tween.TRANS_SINE)
 	tween.set_ease(Tween.EASE_OUT)
