@@ -14,7 +14,7 @@ func _physics_process(_delta):
 
 # This function will be called from the Main scene.
 func initialize(start_position, player_position):
-# Ignore the player's height, so that the mob's orientation is not slightly
+	# Ignore the player's height, so that the mob's orientation is not slightly
 	# shifted if the mob spawns while the player is jumping.
 	var target = Vector3(player_position.x, start_position.y, player_position.z)
 	look_at_from_position(start_position, target, Vector3.UP)
@@ -28,7 +28,8 @@ func initialize(start_position, player_position):
 	# We then rotate the velocity vector based on the mob's Y rotation
 	# in order to move in the direction the mob is looking.
 	velocity = velocity.rotated(Vector3.UP, rotation.y)
-
+	#Set animation speed based on random speed of mob
+	$AnimationPlayer.speed_scale = random_speed / min_speed
 
 func _on_visible_on_screen_notifier_3d_screen_exited() -> void:
 	queue_free()
