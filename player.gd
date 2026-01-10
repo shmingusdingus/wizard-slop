@@ -16,6 +16,49 @@ signal hit
 
 var target_velocity = Vector3.ZERO
 
+@onready var rune_label: Label3D = $RuneLabel
+
+var rune_buffer: Array[String] = []
+
+
+func _ready():
+	rune_label.text = ""
+
+func _unhandled_input(event):
+	if event.is_action_pressed("rune_element"):
+		_add_rune("FIRE")
+	elif event.is_action_pressed("rune_form"):
+		_add_rune("BALL")
+	elif event.is_action_pressed("rune_motion"):
+		_add_rune("STRAIGHT")
+	elif event.is_action_pressed("rune_cast"):
+		_cast_spell()
+
+func _add_rune(rune: String):
+	rune_buffer.append(rune)
+	rune_label.text = " ".join(rune_buffer)
+
+func _cast_spell():
+	if rune_buffer.is_empty():
+		return
+
+	await _pulse_label()
+
+	rune_buffer.clear()
+	rune_label.text = ""
+
+func _pulse_label() -> void:
+	var tween := create_tween()
+	tween.set_trans(Tween.TRANS_SINE)
+	tween.set_ease(Tween.EASE_OUT)
+
+	var original_scale := rune_label.scale
+	var pulse_scale := original_scale * 1.3
+
+	tween.tween_property(rune_label, "scale", pulse_scale, 0.1)
+	tween.tween_property(rune_label, "scale", original_scale, 0.1)
+
+	await tween.finished
 
 func _physics_process(delta):
 	# We create a local variable to store the input direction.

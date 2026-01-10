@@ -132,7 +132,7 @@ offset_right = 20.0
 offset_bottom = 14.0
 grow_horizontal = 2
 grow_vertical = 2
-text = "Press Enter to Retry"
+text = "Press \"Space\" to Retry"
 
 [connection signal="hit" from="Player" to="." method="_on_player_hit"]
 [connection signal="timeout" from="MobTimer" to="." method="_on_mob_timer_timeout"]

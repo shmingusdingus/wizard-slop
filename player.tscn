@@ -98,4 +98,11 @@ libraries = {
 }
 autoplay = "float"
 
+[node name="RuneLabel" type="Label3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, 0)
+billboard = 1
+font_size = 84
+outline_size = 50
+uppercase = true
+
 [connection signal="body_entered" from="MobDetector" to="." method="_on_mob_detector_body_entered"]
