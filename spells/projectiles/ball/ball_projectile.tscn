@@ -1,0 +1,19 @@
+[gd_scene load_steps=5 format=3 uid="uid://jmj1plepnawd"]
+
+[ext_resource type="Script" uid="uid://cu01kt82l87cm" path="res://spells/projectiles/ball/ball_projectile.gd" id="1_eymup"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_eymup"]
+
+[sub_resource type="SphereMesh" id="SphereMesh_eymup"]
+material = SubResource("StandardMaterial3D_eymup")
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_0l1rr"]
+
+[node name="BallProjectile" type="Area3D"]
+script = ExtResource("1_eymup")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+mesh = SubResource("SphereMesh_eymup")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+shape = SubResource("SphereShape3D_0l1rr")

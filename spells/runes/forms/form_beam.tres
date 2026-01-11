@@ -1,0 +1,11 @@
+[gd_resource type="Resource" script_class="FormRune" load_steps=3 format=3 uid="uid://cfm8d1mcom2af"]
+
+[ext_resource type="PackedScene" uid="uid://8h645n71itgl" path="res://spells/projectiles/beam/beam_projectile.tscn" id="1_qh6i8"]
+[ext_resource type="Script" uid="uid://bgxb65qql6vn8" path="res://spells/runes/form_rune.gd" id="2_xnhd4"]
+
+[resource]
+script = ExtResource("2_xnhd4")
+projectile_scene = ExtResource("1_qh6i8")
+base_speed = 40.0
+id = "form_beam"
+display_name = "beam"

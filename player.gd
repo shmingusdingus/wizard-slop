@@ -21,11 +21,12 @@ var target_velocity = Vector3.ZERO
 const RUNE_FIRE := preload("res://spells/runes/elements/element_fire.tres")
 const RUNE_BALL := preload("res://spells/runes/forms/form_ball.tres")
 const RUNE_STRAIGHT := preload("res://spells/runes/motions/motion_straight.tres")
+const BALL_PROJECTILE := preload("res://spells/projectiles/ball/ball_projectile.tscn")
 
 # Current spell state (grammar-enforced)
-var element: Rune = null
-var form: Rune = null
-var motion: Rune = null
+var element: ElementRune = null
+var form: FormRune = null
+var motion: MotionRune = null
 
 func _ready():
 	_update_label()
@@ -41,21 +42,12 @@ func _unhandled_input(event):
 		_cast_spell()
 
 func _try_add_rune(rune: Rune) -> void:
-	match rune.rune_type:
-		Rune.RuneType.ELEMENT:
-			if element != null:
-				return
-			element = rune
-
-		Rune.RuneType.FORM:
-			if form != null:
-				return
-			form = rune
-
-		Rune.RuneType.MOTION:
-			if motion != null:
-				return
-			motion = rune
+	if rune is ElementRune and element == null:
+		element = rune
+	elif rune is FormRune and form == null:
+		form = rune
+	elif rune is MotionRune and motion == null:
+		motion = rune
 
 	_update_label()
 
@@ -79,16 +71,32 @@ func _has_any_runes() -> bool:
 
 func _cast_spell():
 	if not _has_any_runes():
-		print("no runes")
+		print("No runes entered")
 		return
 
 	if not _is_spell_complete():
-		print("incomplete")
+		print("Incomplete spell")
 		await _fizzle_spell()
 		return
 
+	# --- Spell is complete ---
+	_spawn_spell_projectile()
 	await _success_pulse()
 	_clear_spell()
+
+func _spawn_spell_projectile():
+	# You can replace this with your runtime spell system
+	if not form or not form.projectile_scene:
+		print("No projectile scene assigned for form")
+		return
+
+	var spell = Spell.new(element, form, motion)
+	var spell_proj = form.projectile_scene.instantiate()
+	spell_proj.initialize(spell)
+	
+	spell_proj.global_transform.origin = global_transform.origin + Vector3(0,1,0)
+	get_parent().add_child(spell_proj)
+	#or this:	get_tree().current_scene.add_child(spell_proj)
 
 func _fizzle_spell():
 	await _fizzle_pulse()
@@ -108,7 +116,6 @@ func _fizzle_pulse() -> void:
 	var original_scale := rune_label.scale
 	var shrink_scale := original_scale * 0.85
 
-	# Optional: dim color
 	var original_modulate := rune_label.modulate
 	var fizzle_color := Color(0.6, 0.6, 0.6, 1.0)
 

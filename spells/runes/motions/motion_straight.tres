@@ -1,10 +1,9 @@
-[gd_resource type="Resource" script_class="Rune" load_steps=2 format=3 uid="uid://rs5jualouyh7"]
+[gd_resource type="Resource" script_class="MotionRune" load_steps=2 format=3 uid="uid://rs5jualouyh7"]
 
-[ext_resource type="Script" uid="uid://b753cmk6q0ugk" path="res://spells/rune.gd" id="1_q2y3v"]
+[ext_resource type="Script" uid="uid://bhhb2t4r3tf3w" path="res://spells/runes/motion_rune.gd" id="1_q2y3v"]
 
 [resource]
 script = ExtResource("1_q2y3v")
 id = "motion_straight"
 display_name = "straight"
-rune_type = 2
 metadata/_custom_type_script = "uid://b753cmk6q0ugk"
