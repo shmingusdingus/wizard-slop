@@ -206,5 +206,5 @@ func die():
 	hit.emit()
 	queue_free()
 
-func _on_mob_detector_body_entered(body: Node3D) -> void:
+func _on_mob_detector_body_entered(_body: Node3D) -> void:
 	die()
