@@ -22,6 +22,7 @@ const RUNE_FIRE := preload("res://spells/runes/elements/element_fire.tres")
 const RUNE_BALL := preload("res://spells/runes/forms/form_ball.tres")
 const RUNE_STRAIGHT := preload("res://spells/runes/motions/motion_straight.tres")
 const BALL_PROJECTILE := preload("res://spells/projectiles/ball/ball_projectile.tscn")
+const BEAM := preload("res://spells/projectiles/beam/beam_projectile.tscn")
 
 # Current spell state (grammar-enforced)
 var element: ElementRune = null
@@ -79,7 +80,6 @@ func _cast_spell():
 		await _fizzle_spell()
 		return
 
-	# --- Spell is complete ---
 	_spawn_spell_projectile()
 	await _success_pulse()
 	_clear_spell()
@@ -90,9 +90,13 @@ func _spawn_spell_projectile():
 		print("No projectile scene assigned for form")
 		return
 
+	var forward_dir: Vector3 = -$Pivot.global_transform.basis.z
+	forward_dir = forward_dir.normalized()
+
 	var spell = Spell.new(element, form, motion)
 	var spell_proj = form.projectile_scene.instantiate()
 	spell_proj.initialize(spell)
+	spell_proj.set_direction(forward_dir)
 	
 	spell_proj.global_transform.origin = global_transform.origin + Vector3(0,1,0)
 	get_parent().add_child(spell_proj)
