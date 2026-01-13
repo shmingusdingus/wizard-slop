@@ -19,10 +19,15 @@ var target_velocity = Vector3.ZERO
 
 # Loaded rune resources
 const RUNE_FIRE := preload("res://spells/runes/elements/element_fire.tres")
+const RUNE_ICE := preload("res://spells/runes/elements/element_ice.tres")
+
 const RUNE_BALL := preload("res://spells/runes/forms/form_ball.tres")
+const RUNE_BEAM := preload("res://spells/runes/forms/form_beam.tres")
+
 const RUNE_STRAIGHT := preload("res://spells/runes/motions/motion_straight.tres")
+
 const BALL_PROJECTILE := preload("res://spells/projectiles/ball/ball_projectile.tscn")
-const BEAM := preload("res://spells/projectiles/beam/beam_projectile.tscn")
+const BEAM_PROJECTILE := preload("res://spells/projectiles/beam/beam_projectile.tscn")
 
 # Current spell state (grammar-enforced)
 var element: ElementRune = null
@@ -33,10 +38,14 @@ func _ready():
 	_update_label()
 
 func _unhandled_input(event):
-	if event.is_action_pressed("rune_element"):
+	if event.is_action_pressed("rune_element_fire"):
 		_try_add_rune(RUNE_FIRE)
-	elif event.is_action_pressed("rune_form"):
+	elif event.is_action_pressed("rune_element_ice"):
+		_try_add_rune(RUNE_ICE)
+	elif event.is_action_pressed("rune_form_ball"):
 		_try_add_rune(RUNE_BALL)
+	elif event.is_action_pressed("rune_form_beam"):
+		_try_add_rune(RUNE_BEAM)
 	elif event.is_action_pressed("rune_motion"):
 		_try_add_rune(RUNE_STRAIGHT)
 	elif event.is_action_pressed("rune_cast"):
