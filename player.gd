@@ -107,7 +107,7 @@ func _spawn_spell_projectile():
 	spell_proj.initialize(spell)
 	spell_proj.set_direction(forward_dir)
 	
-	spell_proj.global_transform.origin = global_transform.origin + Vector3(0,1,0)
+	spell_proj.global_transform.origin = global_transform.origin + forward_dir
 	get_parent().add_child(spell_proj)
 	#or this:	get_tree().current_scene.add_child(spell_proj)
 
