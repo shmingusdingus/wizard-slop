@@ -108,6 +108,7 @@ func _spawn_spell_projectile():
 	spell_proj.initialize(spell)
 	spell_proj.set_direction(forward_dir)
 	get_parent().add_child(spell_proj)
+
 	spell_proj.global_transform = $Pivot.global_transform
 	spell_proj.global_position = $Pivot.global_position + forward_dir
 
