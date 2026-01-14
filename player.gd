@@ -107,12 +107,9 @@ func _spawn_spell_projectile():
 	var spell_proj = form.projectile_scene.instantiate()
 	spell_proj.initialize(spell)
 	spell_proj.set_direction(forward_dir)
-	
-	spell_proj.global_transform.origin = global_transform.origin + forward_dir
 	get_parent().add_child(spell_proj)
 	spell_proj.global_transform = $Pivot.global_transform
-
-	#or this:	get_tree().current_scene.add_child(spell_proj)
+	spell_proj.global_position = $Pivot.global_position + forward_dir
 
 func _fizzle_spell():
 	await _fizzle_pulse()

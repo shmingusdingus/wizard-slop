@@ -20,7 +20,7 @@ func _on_mob_timer_timeout() -> void:
 	mob.initialize(mob_spawn_location.position, player_position)
 
 	# Spawn the mob by adding it to the Main scene.
-	# add_child(mob)
+	add_child(mob)
 
 	# We connect the mob to the score label to update the score upon squashing one.
 	mob.squashed.connect($UserInterface/ScoreLabel._on_mob_squashed.bind())
