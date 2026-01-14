@@ -10,7 +10,7 @@
 size = Vector3(60, 2, 60)
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_lquwl"]
-albedo_color = Color(0.21799204, 0.13548806, 0.02199792, 1)
+albedo_color = Color(0.98971087, 0.9017169, 0.8012399, 1)
 
 [sub_resource type="BoxMesh" id="BoxMesh_ig7tw"]
 material = SubResource("StandardMaterial3D_lquwl")
@@ -52,20 +52,23 @@ shape = SubResource("BoxShape3D_7dm0k")
 mesh = SubResource("BoxMesh_ig7tw")
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
-transform = Transform3D(0.99999994, 0, 0, 0, 0.5132596, 0.43115756, 0, 2.5409427, 0.18615639, 0, 8.602203, -12)
+transform = Transform3D(1, 0, 0, 0, -0.7071068, 0.7071067, 0, -0.70710677, -0.7071068, 0, 7.6022034, -25)
 shadow_enabled = true
+shadow_bias = 0.05
+shadow_normal_bias = 10.0
+directional_shadow_max_distance = 81.0
 
 [node name="Player" parent="." instance=ExtResource("1_ig7tw")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5231242, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.419168, 0)
 collision_mask = 6
 
-[node name="CameraPivot" type="Marker3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 0.9396925, 0.3420201, 0, -0.3420201, 0.9396925, 0, 0, 0)
+[node name="CameraPivot" type="Marker3D" parent="Player"]
+transform = Transform3D(1, 0, 0, 0, 0.9510564, 0.30901697, 0, -0.30901697, 0.9510564, 0, -0.5231242, 0)
 
-[node name="Camera3D" type="Camera3D" parent="CameraPivot"]
+[node name="Camera3D" type="Camera3D" parent="Player/CameraPivot"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 10)
 size = 4.217
-near = 0.031
+near = 0.004
 
 [node name="Cylinders" type="Node3D" parent="."]
 
