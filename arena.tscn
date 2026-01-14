@@ -7,6 +7,7 @@
 size = Vector3(30, 2, 60)
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_lquwl"]
+albedo_color = Color(0.67909765, 0.5325814, 1.92523e-07, 1)
 albedo_texture = ExtResource("1_ubfh8")
 uv1_scale = Vector3(100, 100, 100)
 texture_filter = 0
@@ -22,7 +23,7 @@ size = Vector3(30, 12, 1)
 transparency = 1
 albedo_color = Color(1.3384119, 0.8492197, 0.716527, 1)
 albedo_texture = ExtResource("2_444vf")
-uv1_scale = Vector3(10, 10, 10)
+uv1_scale = Vector3(50, 10, 0)
 texture_filter = 0
 
 [sub_resource type="BoxMesh" id="BoxMesh_444vf"]
