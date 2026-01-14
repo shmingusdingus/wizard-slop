@@ -15,6 +15,8 @@ signal hit
 @export var bounce_impulse = 16
 var target_velocity = Vector3.ZERO
 
+@onready var sprite := $Pivot/AnimatedSprite3D
+
 @onready var rune_label: Label3D = $RuneLabel
 
 # Loaded rune resources
@@ -35,6 +37,7 @@ var form: FormRune = null
 var motion: MotionRune = null
 
 func _ready():
+	sprite.play("idle")
 	_update_label()
 
 func _unhandled_input(event):
@@ -159,14 +162,18 @@ func _physics_process(delta):
 
 	# We check for each move input and update the direction accordingly.
 	if Input.is_action_pressed("move_right"):
+		sprite.play("walk_right")
 		direction.x += 1
 	if Input.is_action_pressed("move_left"):
+		sprite.play("walk_left")
 		direction.x -= 1
 	if Input.is_action_pressed("move_back"):
 		# Notice how we are working with the vector's x and z axes.
 		# In 3D, the XZ plane is the ground plane.
+		sprite.play("walk_back")
 		direction.z += 1
 	if Input.is_action_pressed("move_forward"):
+		sprite.play("walk_forward")
 		direction.z -= 1
 	
 	if direction != Vector3.ZERO:
@@ -176,6 +183,7 @@ func _physics_process(delta):
 		if is_on_floor():
 			$AnimationPlayer.speed_scale = 4
 	else:
+		sprite.play("idle")
 		$AnimationPlayer.speed_scale = 1
 
 	# Ground Velocity
