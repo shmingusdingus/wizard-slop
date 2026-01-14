@@ -99,9 +99,7 @@ func _spawn_spell_projectile():
 		print("No projectile scene assigned for form")
 		return
 
-	var forward_dir: Vector3 = -$Pivot.global_transform.basis.z
-	forward_dir = forward_dir.normalized()
-
+	var forward_dir: Vector3 = (-$Pivot.global_transform.basis.z).normalized()
 	var spell = Spell.new(element, form, motion)
 	var spell_proj = form.projectile_scene.instantiate()
 	spell_proj.initialize(spell)
@@ -109,6 +107,8 @@ func _spawn_spell_projectile():
 	
 	spell_proj.global_transform.origin = global_transform.origin + forward_dir
 	get_parent().add_child(spell_proj)
+	spell_proj.global_transform = $Pivot.global_transform
+
 	#or this:	get_tree().current_scene.add_child(spell_proj)
 
 func _fizzle_spell():
@@ -177,13 +177,14 @@ func _physics_process(delta):
 			$AnimationPlayer.speed_scale = 4
 	else:
 		$AnimationPlayer.speed_scale = 1
-	
+
 	# Ground Velocity
-	target_velocity.x = direction.x * speed
-	target_velocity.z = direction.z * speed
+	if speed:
+		target_velocity.x = direction.x * speed
+		target_velocity.z = direction.z * speed
 
 	# Vertical Velocity
-	if not is_on_floor(): # If in the air, fall towards the floor. Literally gravity
+	if not is_on_floor() and delta: # If in the air, fall towards the floor. Literally gravity
 		target_velocity.y = target_velocity.y - (fall_acceleration * delta)
 
 	# Jumping.

@@ -4,9 +4,9 @@ extends CharacterBody3D
 signal squashed
 
 # Minimum speed of the mob in meters per second.
-@export var min_speed = 10
+@export var min_speed = 2
 # Maximum speed of the mob in meters per second.
-@export var max_speed = 18
+@export var max_speed = 3
 
 
 func _physics_process(_delta):
@@ -29,7 +29,7 @@ func initialize(start_position, player_position):
 	# in order to move in the direction the mob is looking.
 	velocity = velocity.rotated(Vector3.UP, rotation.y)
 	#Set animation speed based on random speed of mob
-	$AnimationPlayer.speed_scale = random_speed / min_speed
+	$AnimationPlayer.speed_scale = float(random_speed / min_speed)
 
 func _on_visible_on_screen_notifier_3d_screen_exited() -> void:
 	queue_free()
