@@ -184,6 +184,7 @@ func _physics_process(delta):
 			$AnimationPlayer.speed_scale = 4
 	else:
 		sprite.play("idle")
+		$Pivot.basis = Basis.looking_at(Vector3(0, 0, -1))
 		$AnimationPlayer.speed_scale = 1
 
 	# Ground Velocity
