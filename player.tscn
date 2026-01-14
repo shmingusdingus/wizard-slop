@@ -2,8 +2,8 @@
 
 [ext_resource type="PackedScene" uid="uid://lvd87fpeh104" path="res://art/player.glb" id="1_4flbx"]
 [ext_resource type="Script" uid="uid://cmbvybpgwcaqj" path="res://player.gd" id="1_onrkg"]
-[ext_resource type="Texture2D" uid="uid://d0t3rj20f343a" path="res://player_art/Vampires3_Idle_without_shadow.png" id="3_hqtel"]
-[ext_resource type="Texture2D" uid="uid://blglstx0qajv2" path="res://player_art/Vampires3_Walk_without_shadow.png" id="4_sweqy"]
+[ext_resource type="Texture2D" uid="uid://d0t3rj20f343a" path="res://art/player_art/Vampires3_Idle_without_shadow.png" id="3_hqtel"]
+[ext_resource type="Texture2D" uid="uid://blglstx0qajv2" path="res://art/player_art/Vampires3_Walk_without_shadow.png" id="4_sweqy"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_2hs0m"]
 atlas = ExtResource("3_hqtel")
