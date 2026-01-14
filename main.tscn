@@ -31,6 +31,10 @@ mob_scene = ExtResource("2_h2yge")
 [node name="Player" parent="." instance=ExtResource("1_ig7tw")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.419168, 17.583519)
 collision_mask = 6
+speed = 14
+fall_acceleration = 75
+jump_impulse = 20
+bounce_impulse = 16
 
 [node name="SpawnPath" type="Path3D" parent="."]
 curve = SubResource("Curve3D_h2yge")
@@ -91,12 +95,12 @@ shadow_bias = 0.05
 shadow_normal_bias = 10.0
 
 [node name="CameraPivot2" type="Marker3D" parent="." node_paths=PackedStringArray("target")]
-transform = Transform3D(1, 0, 0, 0, 0.9510564, 0.30901697, 0, -0.30901697, 0.9510564, 0, -0.10395622, 17.496384)
+transform = Transform3D(1, 0, 0, 0, 0.9510564, 0.30901697, 0, -0.30901697, 0.9510564, 0, 1, 20)
 script = ExtResource("5_272bh")
 target = NodePath("../Player")
 
 [node name="Camera3D" type="Camera3D" parent="CameraPivot2"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 10)
+transform = Transform3D(1, 0, 0, 0, 1.0000001, 0, 0, 0, 1.0000001, 0, 0.05058527, 9.844313)
 size = 4.217
 
 [connection signal="hit" from="Player" to="." method="_on_player_hit"]

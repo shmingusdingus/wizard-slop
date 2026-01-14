@@ -157,33 +157,50 @@ func _success_pulse() -> void:
 func _physics_process(delta):
 	# We create a local variable to store the input direction.
 	var direction = Vector3.ZERO
-
+	var anim_name = ""
 	# We check for each move input and update the direction accordingly.
 	if Input.is_action_pressed("move_right"):
-		sprite.play("walk_right")
 		direction.x += 1
 	if Input.is_action_pressed("move_left"):
-		sprite.play("walk_left")
 		direction.x -= 1
 	if Input.is_action_pressed("move_back"):
-		# Notice how we are working with the vector's x and z axes.
-		# In 3D, the XZ plane is the ground plane.
-		sprite.play("walk_back")
 		direction.z += 1
 	if Input.is_action_pressed("move_forward"):
-		sprite.play("walk_forward")
 		direction.z -= 1
 	
+	if is_on_floor():
+		if velocity.x != 0 or velocity.z !=0:
+			anim_name = "walk"
+		else:
+			anim_name = "idle"
+	else:
+		anim_name = "jump"
+
+	if velocity.z > 0:
+		anim_name += "_back"
+	elif velocity.z < 0:
+		anim_name += "_forward"
+	elif velocity.x > 0:
+		anim_name += "_right"
+	elif velocity.x < 0:
+		anim_name += "_left"
+
+	# If mid-jump and change direction in air, save sprite frame
+	# and apply to new jump direction
+	if "jump" in sprite.animation and "jump" in anim_name:
+		var current_frame = sprite.frame
+		sprite.animation = anim_name
+		if sprite.animation != anim_name:
+			sprite.frame = current_frame
+	else:
+		sprite.animation = anim_name
+		sprite.play()
+
 	if direction != Vector3.ZERO:
 		direction = direction.normalized()
-		# Setting the basis property will affect the rotation of the node.
 		$Pivot.basis = Basis.looking_at(direction)
-		if is_on_floor():
-			$AnimationPlayer.speed_scale = 4
 	else:
-		sprite.play("idle")
 		$Pivot.basis = Basis.looking_at(Vector3(0, 0, -1))
-		$AnimationPlayer.speed_scale = 1
 
 	# Ground Velocity
 	if speed:
@@ -197,7 +214,6 @@ func _physics_process(delta):
 	# Jumping.
 	if is_on_floor() and Input.is_action_just_pressed("jump"):
 		target_velocity.y = jump_impulse
-		$AnimationPlayer.speed_scale = 1
 
 	# Iterate through all collisions that occurred this frame
 	for index in range(get_slide_collision_count()):
