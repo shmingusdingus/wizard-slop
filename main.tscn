@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=3 uid="uid://bta11quox1k0i"]
+[gd_scene load_steps=8 format=3 uid="uid://bta11quox1k0i"]
 
 [ext_resource type="Script" uid="uid://c2575xxndpfwr" path="res://main.gd" id="1_0xm2m"]
 [ext_resource type="PackedScene" uid="uid://d281rpu4m46xo" path="res://player.tscn" id="1_ig7tw"]
@@ -6,14 +6,6 @@
 [ext_resource type="FontFile" uid="uid://d26ygm7uwqeib" path="res://fonts/Montserrat-Medium.ttf" id="4_1bvp3"]
 [ext_resource type="Script" uid="uid://s0w0ysvlcyfh" path="res://score_label.gd" id="5_lquwl"]
 [ext_resource type="PackedScene" uid="uid://na58botoqv7o" path="res://arena.tscn" id="6_7mycd"]
-
-[sub_resource type="Curve3D" id="Curve3D_h2yge"]
-closed = true
-_data = {
-"points": PackedVector3Array(0, 0, 0, 0, 0, 0, -13.043759, 0, -13.964367, 0, 0, 0, 0, 0, 0, 12.947677, 0, -14.020748, 0, 0, 0, 0, 0, 0, 12.947677, 0, 16.030087, 0, 0, 0, 0, 0, 0, -13.212903, 0, 15.973706),
-"tilts": PackedFloat32Array(0, 0, 0, 0)
-}
-point_count = 4
 
 [sub_resource type="Theme" id="Theme_lquwl"]
 default_font = ExtResource("4_1bvp3")
@@ -27,18 +19,17 @@ mob_scene = ExtResource("2_h2yge")
 
 [node name="Arena" parent="." instance=ExtResource("6_7mycd")]
 
+[node name="SpawnPoints" type="Node3D" parent="."]
+
+[node name="SpawnHost" type="Marker3D" parent="SpawnPoints"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 10)
+
+[node name="SpawnClient" type="Marker3D" parent="SpawnPoints"]
+transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, 0, 0.5, -10)
+
 [node name="Player" parent="." instance=ExtResource("1_ig7tw")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.419168, 9.92964)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 10)
 collision_mask = 6
-
-[node name="SpawnPath" type="Path3D" parent="."]
-curve = SubResource("Curve3D_h2yge")
-
-[node name="SpawnLocation" type="PathFollow3D" parent="SpawnPath"]
-transform = Transform3D(0.002169206, 0, -0.9999977, 0, 1, 0, 0.9999977, 0, 0.002169206, -13.043759, 0, -13.964367)
-
-[node name="MobTimer" type="Timer" parent="."]
-wait_time = 0.5
 
 [node name="UserInterface" type="Control" parent="."]
 layout_mode = 3
@@ -89,5 +80,8 @@ shadow_enabled = true
 shadow_bias = 0.05
 shadow_normal_bias = 10.0
 
+[node name="Timer" type="Timer" parent="."]
+wait_time = 0.5
+
 [connection signal="hit" from="Player" to="." method="_on_player_hit"]
-[connection signal="timeout" from="MobTimer" to="." method="_on_mob_timer_timeout"]
+[connection signal="timeout" from="Timer" to="." method="_on_mob_timer_timeout"]
