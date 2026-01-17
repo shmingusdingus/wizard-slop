@@ -20,7 +20,6 @@ size = Vector3(30, 2, 60)
 size = Vector3(30, 12, 1)
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_g21bf"]
-transparency = 1
 albedo_color = Color(1.3384119, 0.8492197, 0.716527, 1)
 albedo_texture = ExtResource("2_444vf")
 uv1_scale = Vector3(50, 10, 0)

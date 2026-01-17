@@ -184,17 +184,20 @@ func _physics_process(delta):
 		anim_name += "_right"
 	elif velocity.x < 0:
 		anim_name += "_left"
+	elif anim_name == "jump":
+		anim_name += "_forward"
 
-	# If mid-jump and change direction in air, save sprite frame
-	# and apply to new jump direction
-	if "jump" in sprite.animation and "jump" in anim_name:
-		var current_frame = sprite.frame
-		sprite.animation = anim_name
-		if sprite.animation != anim_name:
-			sprite.frame = current_frame
-	else:
-		sprite.animation = anim_name
-		sprite.play()
+	if sprite.animation != anim_name:
+		# If mid-jump and change direction in air, save sprite frame
+		# and apply to new jump direction
+		if "jump" in sprite.animation and "jump" in anim_name:
+			var current_frame = sprite.frame
+			sprite.animation = anim_name
+			if sprite.animation != anim_name:
+				sprite.frame = current_frame
+		else:
+			sprite.animation = anim_name
+			sprite.play()
 
 	if direction != Vector3.ZERO:
 		direction = direction.normalized()

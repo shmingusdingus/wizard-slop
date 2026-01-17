@@ -1,9 +1,10 @@
-[gd_scene load_steps=71 format=3 uid="uid://d281rpu4m46xo"]
+[gd_scene load_steps=72 format=3 uid="uid://d281rpu4m46xo"]
 
 [ext_resource type="Script" uid="uid://cmbvybpgwcaqj" path="res://player.gd" id="1_onrkg"]
 [ext_resource type="Texture2D" uid="uid://d0t3rj20f343a" path="res://art/player_art/Vampires3_Idle_without_shadow.png" id="3_hqtel"]
 [ext_resource type="Texture2D" uid="uid://b2otj83mhe4sf" path="res://art/player_art/Vampires3_Run_without_shadow.png" id="3_sweqy"]
 [ext_resource type="Texture2D" uid="uid://blglstx0qajv2" path="res://art/player_art/Vampires3_Walk_without_shadow.png" id="4_sweqy"]
+[ext_resource type="Script" uid="uid://3nd3c4ie5m7r" path="res://camera_pivot.gd" id="5_sweqy"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_2hs0m"]
 atlas = ExtResource("3_hqtel")
@@ -496,10 +497,6 @@ _data = {
 
 [node name="Player" type="CharacterBody3D"]
 script = ExtResource("1_onrkg")
-speed = null
-fall_acceleration = null
-jump_impulse = null
-bounce_impulse = null
 
 [node name="Pivot" type="Node3D" parent="."]
 
@@ -510,7 +507,7 @@ billboard = 2
 alpha_cut = 2
 texture_filter = 0
 sprite_frames = SubResource("SpriteFrames_tkwlq")
-animation = &"jump_left"
+animation = &"jump_forward"
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 0.99935067, -0.03603322, 0, 0.03603322, 0.99935067, 0.028216958, 0.16538249, -0.023315385)
@@ -537,5 +534,13 @@ billboard = 1
 font_size = 84
 outline_size = 50
 uppercase = true
+
+[node name="CameraPivot2" type="Marker3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 0.9510564, 0.30901697, 0, -0.30901697, 0.9510564, 0, 0, 0)
+script = ExtResource("5_sweqy")
+
+[node name="Camera3D" type="Camera3D" parent="CameraPivot2"]
+transform = Transform3D(1, 0, 0, 0, 1.0000001, 0, 0, 0, 1.0000001, 0, 0.05058527, 9.844313)
+size = 4.217
 
 [connection signal="body_entered" from="MobDetector" to="." method="_on_mob_detector_body_entered"]
