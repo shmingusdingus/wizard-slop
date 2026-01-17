@@ -16,7 +16,6 @@ signal hit
 var target_velocity = Vector3.ZERO
 
 @onready var sprite := $Pivot/AnimatedSprite3D
-
 @onready var rune_label: Label3D = $RuneLabel
 
 # Loaded rune resources
@@ -36,11 +35,16 @@ var element: ElementRune = null
 var form: FormRune = null
 var motion: MotionRune = null
 
+func _enter_tree() -> void:
+	set_multiplayer_authority(name.to_int())
+
 func _ready():
 	sprite.play("idle")
 	_update_label()
 
 func _unhandled_input(event):
+	if !is_multiplayer_authority(): return
+	
 	if event.is_action_pressed("rune_element_fire"):
 		_try_add_rune(RUNE_FIRE)
 	elif event.is_action_pressed("rune_element_ice"):
@@ -155,18 +159,21 @@ func _success_pulse() -> void:
 	await tween.finished
 
 func _physics_process(delta):
-	# We create a local variable to store the input direction.
-	var direction = Vector3.ZERO
+	if !is_multiplayer_authority(): return
+
 	var anim_name = ""
-	# We check for each move input and update the direction accordingly.
+	var input_dir = Vector3.ZERO
 	if Input.is_action_pressed("move_right"):
-		direction.x += 1
+		input_dir.x += 1
 	if Input.is_action_pressed("move_left"):
-		direction.x -= 1
+		input_dir.x -= 1
 	if Input.is_action_pressed("move_back"):
-		direction.z += 1
+		input_dir.z += 1
 	if Input.is_action_pressed("move_forward"):
-		direction.z -= 1
+		input_dir.z -= 1
+	# TRANSFORM the input direction based on the player's current rotation
+	# This makes 'forward' always follow the direction the player is facing.
+	var direction = (transform.basis * input_dir).normalized()
 	
 	if is_on_floor():
 		if velocity.x != 0 or velocity.z !=0:
@@ -175,14 +182,16 @@ func _physics_process(delta):
 			anim_name = "idle"
 	else:
 		anim_name = "jump"
+	
+	var local_vel = transform.basis.inverse() * velocity
 
-	if velocity.z > 0:
+	if local_vel.z > 0.1:
 		anim_name += "_back"
-	elif velocity.z < 0:
+	elif local_vel.z < -0.1:
 		anim_name += "_forward"
-	elif velocity.x > 0:
+	elif local_vel.x > 0.1:
 		anim_name += "_right"
-	elif velocity.x < 0:
+	elif local_vel.x < -0.1:
 		anim_name += "_left"
 	elif anim_name == "jump":
 		anim_name += "_forward"
@@ -199,11 +208,10 @@ func _physics_process(delta):
 			sprite.animation = anim_name
 			sprite.play()
 
-	if direction != Vector3.ZERO:
-		direction = direction.normalized()
-		$Pivot.basis = Basis.looking_at(direction)
+	if input_dir != Vector3.ZERO:
+		$Pivot.basis = Basis.looking_at(input_dir.normalized())
 	else:
-		$Pivot.basis = Basis.looking_at(Vector3(0, 0, -1))
+		$Pivot.basis = Basis.looking_at(Vector3.FORWARD)
 
 	# Ground Velocity
 	if speed:

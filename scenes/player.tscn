@@ -1,10 +1,18 @@
-[gd_scene load_steps=72 format=3 uid="uid://d281rpu4m46xo"]
+[gd_scene load_steps=70 format=3 uid="uid://d281rpu4m46xo"]
 
-[ext_resource type="Script" uid="uid://cmbvybpgwcaqj" path="res://player.gd" id="1_onrkg"]
+[ext_resource type="Script" uid="uid://cmbvybpgwcaqj" path="res://scripts/player.gd" id="1_onrkg"]
 [ext_resource type="Texture2D" uid="uid://d0t3rj20f343a" path="res://art/player_art/Vampires3_Idle_without_shadow.png" id="3_hqtel"]
 [ext_resource type="Texture2D" uid="uid://b2otj83mhe4sf" path="res://art/player_art/Vampires3_Run_without_shadow.png" id="3_sweqy"]
 [ext_resource type="Texture2D" uid="uid://blglstx0qajv2" path="res://art/player_art/Vampires3_Walk_without_shadow.png" id="4_sweqy"]
-[ext_resource type="Script" uid="uid://3nd3c4ie5m7r" path="res://camera_pivot.gd" id="5_sweqy"]
+[ext_resource type="Script" uid="uid://3nd3c4ie5m7r" path="res://scripts/camera_pivot.gd" id="5_sweqy"]
+
+[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_qlg0r"]
+properties/0/path = NodePath(".:position")
+properties/0/spawn = true
+properties/0/replication_mode = 1
+properties/1/path = NodePath("Pivot/AnimatedSprite3D:animation")
+properties/1/spawn = true
+properties/1/replication_mode = 1
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_2hs0m"]
 atlas = ExtResource("3_hqtel")
@@ -481,22 +489,13 @@ size = Vector3(1, 1.09375, 1)
 height = 0.17230225
 radius = 0.95
 
-[sub_resource type="Animation" id="Animation_i3pqv"]
-length = 0.001
-
-[sub_resource type="Animation" id="Animation_onrkg"]
-resource_name = "float"
-length = 1.2
-loop_mode = 1
-
-[sub_resource type="AnimationLibrary" id="AnimationLibrary_hqtel"]
-_data = {
-&"RESET": SubResource("Animation_i3pqv"),
-&"float": SubResource("Animation_onrkg")
-}
-
 [node name="Player" type="CharacterBody3D"]
+collision_layer = 5
+collision_mask = 5
 script = ExtResource("1_onrkg")
+
+[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
+replication_config = SubResource("SceneReplicationConfig_qlg0r")
 
 [node name="Pivot" type="Node3D" parent="."]
 
@@ -522,12 +521,6 @@ monitorable = false
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.64950633, 0)
 shape = SubResource("CylinderShape3D_onrkg")
 
-[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
-libraries = {
-&"": SubResource("AnimationLibrary_hqtel")
-}
-autoplay = "float"
-
 [node name="RuneLabel" type="Label3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, 0)
 billboard = 1
@@ -535,11 +528,11 @@ font_size = 84
 outline_size = 50
 uppercase = true
 
-[node name="CameraPivot2" type="Marker3D" parent="."]
+[node name="CameraPivot" type="Marker3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 0.9510564, 0.30901697, 0, -0.30901697, 0.9510564, 0, 0, 0)
 script = ExtResource("5_sweqy")
 
-[node name="Camera3D" type="Camera3D" parent="CameraPivot2"]
+[node name="Camera3D" type="Camera3D" parent="CameraPivot"]
 transform = Transform3D(1, 0, 0, 0, 1.0000001, 0, 0, 0, 1.0000001, 0, 0.05058527, 9.844313)
 size = 4.217
 
