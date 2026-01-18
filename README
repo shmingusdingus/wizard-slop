@@ -1,0 +1,13 @@
+Please follow the following workflow for branch creation and PRs:
+Create or use an existing issue
+Click "Create a branch" under the "Development section on the right side of the issue
+Checkout branch locally
+When you create PR/merge PR, it automatically closes the issue
+
+Configure Debug->Customize Run Instances->Check Enable Multiple-> create 4 instances
+Click Run
+Separate the windows, and press the following:
+    Click first window, press "1" to start the server
+    Click another window, press "2" to start a client, you should see a scene and player load
+    Click another window, press "2", a player should spawn on the opposing side
+    Click another window, press "2", a player should spawn alongside the first player. (players are spawned on whichever side has less players"
