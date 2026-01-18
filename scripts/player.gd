@@ -13,6 +13,10 @@ signal hit
 # Vertical impulse applied to the character upon bouncing over a mob in
 # meters per second.
 @export var bounce_impulse = 16
+# is_on_floor() boolean exported for use in multiplayerspawner replication
+@export var sync_on_floor := true
+# player velocity vector exported for use in multiplayerspawner replication
+@export var sync_velocity := Vector3.ZERO
 var target_velocity = Vector3.ZERO
 
 @onready var sprite := $Pivot/AnimatedSprite3D
@@ -39,7 +43,7 @@ func _enter_tree() -> void:
 	set_multiplayer_authority(name.to_int())
 
 func _ready():
-	sprite.play("idle")
+	sprite.play("idle_forward")
 	_update_label()
 
 func _unhandled_input(event):
@@ -161,7 +165,6 @@ func _success_pulse() -> void:
 func _physics_process(delta):
 	if !is_multiplayer_authority(): return
 
-	var anim_name = ""
 	var input_dir = Vector3.ZERO
 	if Input.is_action_pressed("move_right"):
 		input_dir.x += 1
@@ -174,44 +177,11 @@ func _physics_process(delta):
 	# TRANSFORM the input direction based on the player's current rotation
 	# This makes 'forward' always follow the direction the player is facing.
 	var direction = (transform.basis * input_dir).normalized()
-	
-	if is_on_floor():
-		if velocity.x != 0 or velocity.z !=0:
-			anim_name = "walk"
-		else:
-			anim_name = "idle"
-	else:
-		anim_name = "jump"
-	
-	var local_vel = transform.basis.inverse() * velocity
-
-	if local_vel.z > 0.1:
-		anim_name += "_back"
-	elif local_vel.z < -0.1:
-		anim_name += "_forward"
-	elif local_vel.x > 0.1:
-		anim_name += "_right"
-	elif local_vel.x < -0.1:
-		anim_name += "_left"
-	elif anim_name == "jump":
-		anim_name += "_forward"
-
-	if sprite.animation != anim_name:
-		# If mid-jump and change direction in air, save sprite frame
-		# and apply to new jump direction
-		if "jump" in sprite.animation and "jump" in anim_name:
-			var current_frame = sprite.frame
-			sprite.animation = anim_name
-			if sprite.animation != anim_name:
-				sprite.frame = current_frame
-		else:
-			sprite.animation = anim_name
-			sprite.play()
 
 	if input_dir != Vector3.ZERO:
 		$Pivot.basis = Basis.looking_at(input_dir.normalized())
-	else:
-		$Pivot.basis = Basis.looking_at(Vector3.FORWARD)
+	#else:
+		#$Pivot.basis = Basis.looking_at(Vector3.FORWARD)
 
 	# Ground Velocity
 	if speed:
@@ -253,10 +223,78 @@ func _physics_process(delta):
 
 	# Moving the Character
 	velocity = target_velocity
+
+	# Sync replication variables
+	# Should be here or before new velocity is set?
+	# Maybe after move_and_slide()? idk
+	sync_on_floor = is_on_floor()
+	sync_velocity = velocity
+
 	move_and_slide()
 	$Pivot.rotation.x = PI / 6 * velocity.y / jump_impulse
 
-# And this function at the bottom.
+func _process(_delta):
+	update_sprite_visuals()
+
+func update_sprite_visuals():
+	var anim_base = ""
+	var horizontal_vel = Vector3(velocity.x, 0, velocity.z)
+	
+	# 1. Determine Base State
+	if not sync_on_floor:
+		anim_base = "jump"
+	elif horizontal_vel.length() > 0.05:
+		anim_base = "walk"
+	else:
+		anim_base = "idle"
+
+	# 2. Determine Directional Suffix
+	var suffix = calculate_direction_suffix()
+	var final_anim = anim_base + suffix
+
+	# 3. Apply Animation
+	if sprite.animation != final_anim:
+		# Safety check to ensure the animation exists in the SpriteFrames
+		if sprite.sprite_frames.has_animation(final_anim):
+			# If transitioning between directions of the same action (like jumping),
+			# keep the current frame so the animation doesn't "restart"
+			if anim_base in sprite.animation:
+				var current_frame = sprite.frame
+				sprite.animation = final_anim
+				sprite.frame = current_frame
+			else:
+				sprite.animation = final_anim
+				sprite.play()
+
+func calculate_direction_suffix() -> String:
+	var cam = get_viewport().get_camera_3d()
+	if not cam: return "_forward"
+
+	# Get Camera Forward (flat on XZ plane)
+	var cam_forward = -cam.global_transform.basis.z
+	cam_forward.y = 0
+	cam_forward = cam_forward.normalized()
+
+	# Get Player Forward (Using the synced Pivot rotation)
+	var player_forward = -$Pivot.global_transform.basis.z 
+	player_forward.y = 0
+	player_forward = player_forward.normalized()
+
+	var dot = cam_forward.dot(player_forward)
+	var cross = cam_forward.cross(player_forward).y
+
+	# Mapping: Forward = Facing away, Back = Facing camera
+	if dot > 0.45:
+		return "_forward" # Aligned with camera (looking away)
+	elif dot < -0.45:
+		return "_back"    # Opposite of camera (looking at us)
+	else:
+		# Use cross product for Left vs Right
+		if cross > 0:
+			return "_left"
+		else:
+			return "_right"
+
 func die():
 	hit.emit()
 	queue_free()

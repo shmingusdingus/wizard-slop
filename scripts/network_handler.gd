@@ -2,7 +2,7 @@ extends Node
 
 const IP_ADDRESS: String = "localhost"
 const PORT: int = 24454
-const MAX_CLIENTS: int = 2
+const MAX_CLIENTS: int = 3
 var peer: ENetMultiplayerPeer
 
 
