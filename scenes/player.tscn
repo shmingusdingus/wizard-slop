@@ -1,9 +1,40 @@
-[gd_scene load_steps=71 format=3 uid="uid://d281rpu4m46xo"]
+[gd_scene load_steps=82 format=3 uid="uid://d281rpu4m46xo"]
 
-[ext_resource type="Script" uid="uid://cmbvybpgwcaqj" path="res://player.gd" id="1_onrkg"]
+[ext_resource type="Script" uid="uid://cmbvybpgwcaqj" path="res://scripts/player.gd" id="1_onrkg"]
 [ext_resource type="Texture2D" uid="uid://d0t3rj20f343a" path="res://art/player_art/Vampires3_Idle_without_shadow.png" id="3_hqtel"]
 [ext_resource type="Texture2D" uid="uid://b2otj83mhe4sf" path="res://art/player_art/Vampires3_Run_without_shadow.png" id="3_sweqy"]
 [ext_resource type="Texture2D" uid="uid://blglstx0qajv2" path="res://art/player_art/Vampires3_Walk_without_shadow.png" id="4_sweqy"]
+[ext_resource type="Script" uid="uid://3nd3c4ie5m7r" path="res://scripts/camera_pivot.gd" id="5_sweqy"]
+
+[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_qlg0r"]
+properties/0/path = NodePath(".:position")
+properties/0/spawn = true
+properties/0/replication_mode = 1
+properties/1/path = NodePath(".:sync_on_floor")
+properties/1/spawn = true
+properties/1/replication_mode = 1
+properties/2/path = NodePath("Pivot:rotation")
+properties/2/spawn = true
+properties/2/replication_mode = 1
+properties/3/path = NodePath(".:sync_velocity")
+properties/3/spawn = true
+properties/3/replication_mode = 1
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_qlg0r"]
+atlas = ExtResource("3_hqtel")
+region = Rect2(0, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_tuyoq"]
+atlas = ExtResource("3_hqtel")
+region = Rect2(64, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_fjrip"]
+atlas = ExtResource("3_hqtel")
+region = Rect2(128, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_smehm"]
+atlas = ExtResource("3_hqtel")
+region = Rect2(192, 0, 64, 64)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_2hs0m"]
 atlas = ExtResource("3_hqtel")
@@ -20,6 +51,38 @@ region = Rect2(128, 64, 64, 64)
 [sub_resource type="AtlasTexture" id="AtlasTexture_b26j0"]
 atlas = ExtResource("3_hqtel")
 region = Rect2(192, 64, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ur7pv"]
+atlas = ExtResource("3_hqtel")
+region = Rect2(0, 128, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_y4r1p"]
+atlas = ExtResource("3_hqtel")
+region = Rect2(64, 128, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_d2wvv"]
+atlas = ExtResource("3_hqtel")
+region = Rect2(128, 128, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_3v2ag"]
+atlas = ExtResource("3_hqtel")
+region = Rect2(192, 128, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_jej6c"]
+atlas = ExtResource("3_hqtel")
+region = Rect2(0, 192, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_f1ej7"]
+atlas = ExtResource("3_hqtel")
+region = Rect2(64, 192, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_oprun"]
+atlas = ExtResource("3_hqtel")
+region = Rect2(128, 192, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_a8ls1"]
+atlas = ExtResource("3_hqtel")
+region = Rect2(192, 192, 64, 64)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_tkwlq"]
 atlas = ExtResource("3_sweqy")
@@ -249,6 +312,23 @@ region = Rect2(320, 192, 64, 64)
 animations = [{
 "frames": [{
 "duration": 1.0,
+"texture": SubResource("AtlasTexture_qlg0r")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_tuyoq")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_fjrip")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_smehm")
+}],
+"loop": true,
+"name": &"idle_back",
+"speed": 4.0
+}, {
+"frames": [{
+"duration": 1.0,
 "texture": SubResource("AtlasTexture_2hs0m")
 }, {
 "duration": 1.0,
@@ -261,8 +341,42 @@ animations = [{
 "texture": SubResource("AtlasTexture_b26j0")
 }],
 "loop": true,
-"name": &"idle",
-"speed": 5.0
+"name": &"idle_forward",
+"speed": 4.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ur7pv")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_y4r1p")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_d2wvv")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_3v2ag")
+}],
+"loop": true,
+"name": &"idle_left",
+"speed": 4.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_jej6c")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_f1ej7")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_oprun")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_a8ls1")
+}],
+"loop": true,
+"name": &"idle_right",
+"speed": 4.0
 }, {
 "frames": [{
 "duration": 1.0,
@@ -320,7 +434,7 @@ animations = [{
 }],
 "loop": true,
 "name": &"jump_forward",
-"speed": 4.0
+"speed": 8.0
 }, {
 "frames": [{
 "duration": 1.0,
@@ -349,7 +463,7 @@ animations = [{
 }],
 "loop": true,
 "name": &"jump_left",
-"speed": 3.0
+"speed": 8.0
 }, {
 "frames": [{
 "duration": 1.0,
@@ -480,26 +594,13 @@ size = Vector3(1, 1.09375, 1)
 height = 0.17230225
 radius = 0.95
 
-[sub_resource type="Animation" id="Animation_i3pqv"]
-length = 0.001
-
-[sub_resource type="Animation" id="Animation_onrkg"]
-resource_name = "float"
-length = 1.2
-loop_mode = 1
-
-[sub_resource type="AnimationLibrary" id="AnimationLibrary_hqtel"]
-_data = {
-&"RESET": SubResource("Animation_i3pqv"),
-&"float": SubResource("Animation_onrkg")
-}
-
 [node name="Player" type="CharacterBody3D"]
+collision_layer = 5
+collision_mask = 5
 script = ExtResource("1_onrkg")
-speed = null
-fall_acceleration = null
-jump_impulse = null
-bounce_impulse = null
+
+[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
+replication_config = SubResource("SceneReplicationConfig_qlg0r")
 
 [node name="Pivot" type="Node3D" parent="."]
 
@@ -510,7 +611,7 @@ billboard = 2
 alpha_cut = 2
 texture_filter = 0
 sprite_frames = SubResource("SpriteFrames_tkwlq")
-animation = &"jump_left"
+animation = &"idle_right"
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 0.99935067, -0.03603322, 0, 0.03603322, 0.99935067, 0.028216958, 0.16538249, -0.023315385)
@@ -525,17 +626,19 @@ monitorable = false
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.64950633, 0)
 shape = SubResource("CylinderShape3D_onrkg")
 
-[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
-libraries = {
-&"": SubResource("AnimationLibrary_hqtel")
-}
-autoplay = "float"
-
 [node name="RuneLabel" type="Label3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, 0)
 billboard = 1
 font_size = 84
 outline_size = 50
 uppercase = true
+
+[node name="CameraPivot" type="Marker3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 0.9510564, 0.30901697, 0, -0.30901697, 0.9510564, 0, 0, 0)
+script = ExtResource("5_sweqy")
+
+[node name="Camera3D" type="Camera3D" parent="CameraPivot"]
+transform = Transform3D(1, 0, 0, 0, 1.0000001, 0, 0, 0, 1.0000001, 0, 0.05058527, 9.844313)
+size = 4.217
 
 [connection signal="body_entered" from="MobDetector" to="." method="_on_mob_detector_body_entered"]
