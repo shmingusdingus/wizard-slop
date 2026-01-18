@@ -238,7 +238,7 @@ func _process(_delta):
 
 func update_sprite_visuals():
 	var anim_base = ""
-	var horizontal_vel = Vector3(velocity.x, 0, velocity.z)
+	var horizontal_vel = Vector3(sync_velocity.x, 0, sync_velocity.z)
 	
 	# 1. Determine Base State
 	if not sync_on_floor:
