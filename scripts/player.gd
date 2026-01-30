@@ -100,25 +100,37 @@ func _cast_spell():
 		await _fizzle_spell()
 		return
 
-	_spawn_spell_projectile()
+	var e_path = element.resource_path
+	var f_path = form.resource_path
+	var m_path = motion.resource_path
+
+	request_spell_spawn.rpc_id(1, e_path, f_path, m_path)
+
 	await _success_pulse()
 	_clear_spell()
 
-func _spawn_spell_projectile():
-	# You can replace this with your runtime spell system
-	if not form or not form.projectile_scene:
-		print("No projectile scene assigned for form")
+@rpc("any_peer", "call_local", "reliable")
+func request_spell_spawn(e_path: String, f_path: String, m_path: String):
+	# GUARD: Only the server is allowed to execute the spawning logic
+	if not multiplayer.is_server():
 		return
-
+	
+	# The server uses the Server-Side version of the player's transform
+	var trans = $Pivot.global_transform
 	var forward_dir: Vector3 = (-$Pivot.global_transform.basis.z).normalized()
-	var spell = Spell.new(element, form, motion)
-	var spell_proj = form.projectile_scene.instantiate()
-	spell_proj.initialize(spell)
-	spell_proj.set_direction(forward_dir)
-	get_parent().add_child(spell_proj)
+	var spawn_pos = $Pivot.global_position + forward_dir
+	
+	var data = {
+	"e": e_path,
+	"f": f_path,
+	"m": m_path,
+	"dir": forward_dir,
+	"pos": spawn_pos,
+	"trans": trans
+	}
 
-	spell_proj.global_transform = $Pivot.global_transform
-	spell_proj.global_position = $Pivot.global_position + forward_dir
+	var spawner = get_tree().get_first_node_in_group("projectile_spawner")
+	spawner.spawn(data)
 
 func _fizzle_spell():
 	await _fizzle_pulse()

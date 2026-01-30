@@ -3,7 +3,7 @@
 [ext_resource type="Script" uid="uid://c2575xxndpfwr" path="res://scripts/main.gd" id="1_tbgi4"]
 [ext_resource type="PackedScene" uid="uid://d281rpu4m46xo" path="res://scenes/player.tscn" id="2_tefeu"]
 [ext_resource type="PackedScene" uid="uid://na58botoqv7o" path="res://scenes/arena.tscn" id="3_o6xl0"]
-[ext_resource type="Script" uid="uid://cdrhor5evn08p" path="res://scenes/multiplayer_spawner.gd" id="4_o6xl0"]
+[ext_resource type="Script" uid="uid://cdrhor5evn08p" path="res://scripts/multiplayer_spawner.gd" id="4_o6xl0"]
 [ext_resource type="FontFile" uid="uid://d26ygm7uwqeib" path="res://fonts/Montserrat-Medium.ttf" id="4_tipki"]
 [ext_resource type="Script" uid="uid://s0w0ysvlcyfh" path="res://scripts/score_label.gd" id="5_85g3d"]
 
@@ -24,7 +24,13 @@ network_player = ExtResource("2_tefeu")
 team_zed_pos_spawn = NodePath("../SpawnZedPos")
 team_zed_neg_spawn = NodePath("../SpawnZedNeg")
 
+[node name="ProjectileSpawner" type="MultiplayerSpawner" parent="." groups=["projectile_spawner"]]
+_spawnable_scenes = PackedStringArray("uid://jmj1plepnawd", "uid://8h645n71itgl")
+spawn_path = NodePath("../Projectiles")
+
 [node name="Players" type="Node3D" parent="."]
+
+[node name="Projectiles" type="Node3D" parent="."]
 
 [node name="Arena" parent="." instance=ExtResource("3_o6xl0")]
 
