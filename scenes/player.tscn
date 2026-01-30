@@ -1,10 +1,12 @@
-[gd_scene load_steps=83 format=3 uid="uid://d281rpu4m46xo"]
+[gd_scene load_steps=85 format=3 uid="uid://d281rpu4m46xo"]
 
 [ext_resource type="Script" uid="uid://cmbvybpgwcaqj" path="res://scripts/player.gd" id="1_onrkg"]
 [ext_resource type="Texture2D" uid="uid://d0t3rj20f343a" path="res://art/player_art/Vampires3_Idle_without_shadow.png" id="3_hqtel"]
 [ext_resource type="Texture2D" uid="uid://b2otj83mhe4sf" path="res://art/player_art/Vampires3_Run_without_shadow.png" id="3_sweqy"]
 [ext_resource type="Texture2D" uid="uid://blglstx0qajv2" path="res://art/player_art/Vampires3_Walk_without_shadow.png" id="4_sweqy"]
 [ext_resource type="Script" uid="uid://3nd3c4ie5m7r" path="res://scripts/camera_pivot.gd" id="5_sweqy"]
+[ext_resource type="Texture2D" uid="uid://dra2rpux0vvb7" path="res://art/player_art/healthbar_under.png" id="6_fjrip"]
+[ext_resource type="Texture2D" uid="uid://cdw7nvhhaq7k7" path="res://art/player_art/healthbar_progress.png" id="7_smehm"]
 
 [sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_qlg0r"]
 properties/0/path = NodePath(".:position")
@@ -648,10 +650,10 @@ texture = SubResource("ViewportTexture_qlg0r")
 
 [node name="SubViewport" type="SubViewport" parent="StatusBarAnchor/Sprite3D"]
 transparent_bg = true
-size = Vector2i(100, 20)
+size = Vector2i(500, 75)
 render_target_update_mode = 4
 
-[node name="HealthBar" type="ProgressBar" parent="StatusBarAnchor/Sprite3D/SubViewport"]
+[node name="HealthBar" type="TextureProgressBar" parent="StatusBarAnchor/Sprite3D/SubViewport"]
 anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5
@@ -664,3 +666,5 @@ offset_bottom = 13.5
 grow_horizontal = 2
 grow_vertical = 2
 rounded = true
+texture_under = ExtResource("6_fjrip")
+texture_progress = ExtResource("7_smehm")
