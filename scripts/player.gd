@@ -284,9 +284,9 @@ func calculate_direction_suffix() -> String:
 func take_damage(amount: float):
 	if not multiplayer.is_server():
 		return
-		
+
 	health -= amount
-	print("Player hit! Health remaining: ", health)
+	#print("Player hit! Health remaining: ", health)
 	
 	_update_health_ui()
 	
