@@ -177,8 +177,6 @@ func _success_pulse() -> void:
 func _physics_process(delta):
 	if !is_multiplayer_authority(): return
 
-	print("Client ", multiplayer.get_unique_id(), " health is: ", health)
-
 	var input_dir = Vector3.ZERO
 	if Input.is_action_pressed("move_right"):
 		input_dir.x += 1
@@ -194,8 +192,8 @@ func _physics_process(delta):
 
 	if input_dir != Vector3.ZERO:
 		$Pivot.basis = Basis.looking_at(input_dir.normalized())
-	#else:
-		#$Pivot.basis = Basis.looking_at(Vector3.FORWARD)
+	else:
+		$Pivot.basis = Basis.looking_at(Vector3.FORWARD)
 
 	# Ground Velocity
 	if speed:
