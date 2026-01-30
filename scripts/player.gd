@@ -113,22 +113,20 @@ func _cast_spell():
 
 @rpc("any_peer", "call_local", "reliable")
 func request_spell_spawn(e_path: String, f_path: String, m_path: String):
-	# GUARD: Only the server is allowed to execute the spawning logic
-	if not multiplayer.is_server():
-		return
+	if not multiplayer.is_server(): return
 	
-	# The server uses the Server-Side version of the player's transform
-	var trans = $Pivot.global_transform
-	var forward_dir: Vector3 = (-$Pivot.global_transform.basis.z).normalized()
-	var spawn_pos = $Pivot.global_position + forward_dir + forward_dir
+	var pivot = $Pivot
+	var forward_dir: Vector3 = (-pivot.global_transform.basis.z).normalized()
+	
+	var spawn_transform = pivot.global_transform
+	spawn_transform.origin = pivot.global_position + (forward_dir * 1.5)
 	
 	var data = {
-	"e": e_path,
-	"f": f_path,
-	"m": m_path,
-	"dir": forward_dir,
-	"pos": spawn_pos,
-	"trans": trans
+		"e": e_path,
+		"f": f_path,
+		"m": m_path,
+		"dir": forward_dir,
+		"trans": spawn_transform
 	}
 
 	var spawner = get_tree().get_first_node_in_group("projectile_spawner")
