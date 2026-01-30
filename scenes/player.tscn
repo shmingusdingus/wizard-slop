@@ -1,4 +1,4 @@
-[gd_scene load_steps=82 format=3 uid="uid://d281rpu4m46xo"]
+[gd_scene load_steps=84 format=3 uid="uid://d281rpu4m46xo"]
 
 [ext_resource type="Script" uid="uid://cmbvybpgwcaqj" path="res://scripts/player.gd" id="1_onrkg"]
 [ext_resource type="Texture2D" uid="uid://d0t3rj20f343a" path="res://art/player_art/Vampires3_Idle_without_shadow.png" id="3_hqtel"]
@@ -19,6 +19,11 @@ properties/2/replication_mode = 1
 properties/3/path = NodePath(".:sync_velocity")
 properties/3/spawn = true
 properties/3/replication_mode = 1
+
+[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_tuyoq"]
+properties/0/path = NodePath(".:health")
+properties/0/spawn = true
+properties/0/replication_mode = 2
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_qlg0r"]
 atlas = ExtResource("3_hqtel")
@@ -590,9 +595,10 @@ animations = [{
 [sub_resource type="BoxShape3D" id="BoxShape3D_hqtel"]
 size = Vector3(1, 1.09375, 1)
 
-[sub_resource type="CylinderShape3D" id="CylinderShape3D_onrkg"]
-height = 0.17230225
-radius = 0.95
+[sub_resource type="Theme" id="Theme_qlg0r"]
+
+[sub_resource type="ViewportTexture" id="ViewportTexture_qlg0r"]
+viewport_path = NodePath("StatusBarAnchor/Sprite3D/SubViewport")
 
 [node name="Player" type="CharacterBody3D"]
 collision_layer = 5
@@ -601,6 +607,9 @@ script = ExtResource("1_onrkg")
 
 [node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
 replication_config = SubResource("SceneReplicationConfig_qlg0r")
+
+[node name="StatusSynchronizer" type="MultiplayerSynchronizer" parent="."]
+replication_config = SubResource("SceneReplicationConfig_tuyoq")
 
 [node name="Pivot" type="Node3D" parent="."]
 
@@ -617,15 +626,6 @@ animation = &"idle_right"
 transform = Transform3D(1, 0, 0, 0, 0.99935067, -0.03603322, 0, 0.03603322, 0.99935067, 0.028216958, 0.16538249, -0.023315385)
 shape = SubResource("BoxShape3D_hqtel")
 
-[node name="MobDetector" type="Area3D" parent="."]
-collision_layer = 0
-collision_mask = 2
-monitorable = false
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="MobDetector"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.64950633, 0)
-shape = SubResource("CylinderShape3D_onrkg")
-
 [node name="RuneLabel" type="Label3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, 0)
 billboard = 1
@@ -641,4 +641,36 @@ script = ExtResource("5_sweqy")
 transform = Transform3D(1, 0, 0, 0, 1.0000001, 0, 0, 0, 1.0000001, 0, 0.05058527, 9.844313)
 size = 4.217
 
-[connection signal="body_entered" from="MobDetector" to="." method="_on_mob_detector_body_entered"]
+[node name="StatusContainer" type="HBoxContainer" parent="."]
+texture_filter = 1
+custom_minimum_size = Vector2(100, 0)
+offset_right = 40.0
+offset_bottom = 40.0
+theme = SubResource("Theme_qlg0r")
+alignment = 1
+
+[node name="StatusBarAnchor" type="Node3D" parent="."]
+
+[node name="Sprite3D" type="Sprite3D" parent="StatusBarAnchor"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.3585339, 0)
+billboard = 1
+texture = SubResource("ViewportTexture_qlg0r")
+
+[node name="SubViewport" type="SubViewport" parent="StatusBarAnchor/Sprite3D"]
+transparent_bg = true
+size = Vector2i(100, 20)
+render_target_update_mode = 4
+
+[node name="HealthBar" type="ProgressBar" parent="StatusBarAnchor/Sprite3D/SubViewport"]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -2.0
+offset_top = -13.5
+offset_right = 2.0
+offset_bottom = 13.5
+grow_horizontal = 2
+grow_vertical = 2
+rounded = true

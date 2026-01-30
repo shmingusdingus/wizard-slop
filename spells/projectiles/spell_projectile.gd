@@ -9,6 +9,23 @@ var damage: float = 1.0
 var status_effect: String = ""
 var orientation: Vector3 = Vector3.ZERO
 
+func _ready():
+	body_entered.connect(_on_body_entered)
+
+	if multiplayer.is_server():
+		get_tree().create_timer(5.0).timeout.connect(queue_free)
+
+func _on_body_entered(body):
+	if not multiplayer.is_server():
+		return
+
+	if body.has_method("take_damage"):
+		body.take_damage(damage)
+		queue_free()
+	
+	elif body is StaticBody3D:
+		queue_free()
+
 func initialize(spell: Spell):
 	spell.apply_to_projectile(self)
 

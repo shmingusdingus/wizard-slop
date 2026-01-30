@@ -1,9 +1,9 @@
 extends CharacterBody3D
 
-# Emitted when the player was hit by a mob.
-# Put this at the top of the script.
-signal hit
-
+@export var health: float = 100.0:
+	set(value):
+		health = value
+		_update_health_ui()
 # How fast the player moves in meters per second.
 @export var speed = 14
 # The downward acceleration when in the air, in meters per second squared.
@@ -43,6 +43,8 @@ func _enter_tree() -> void:
 	set_multiplayer_authority(name.to_int())
 
 func _ready():
+	$StatusSynchronizer.set_multiplayer_authority(1)
+	_update_health_ui()
 	sprite.play("idle_forward")
 	_update_label()
 
@@ -118,7 +120,7 @@ func request_spell_spawn(e_path: String, f_path: String, m_path: String):
 	# The server uses the Server-Side version of the player's transform
 	var trans = $Pivot.global_transform
 	var forward_dir: Vector3 = (-$Pivot.global_transform.basis.z).normalized()
-	var spawn_pos = $Pivot.global_position + forward_dir
+	var spawn_pos = $Pivot.global_position + forward_dir + forward_dir
 	
 	var data = {
 	"e": e_path,
@@ -177,6 +179,8 @@ func _success_pulse() -> void:
 func _physics_process(delta):
 	if !is_multiplayer_authority(): return
 
+	print("Client ", multiplayer.get_unique_id(), " health is: ", health)
+
 	var input_dir = Vector3.ZERO
 	if Input.is_action_pressed("move_right"):
 		input_dir.x += 1
@@ -208,32 +212,6 @@ func _physics_process(delta):
 	if is_on_floor() and Input.is_action_just_pressed("jump"):
 		target_velocity.y = jump_impulse
 
-	# Iterate through all collisions that occurred this frame
-	for index in range(get_slide_collision_count()):
-		# We get one of the collisions with the player
-		var collision = get_slide_collision(index)
-
-		# If there are duplicate collisions with a mob in a single frame
-		# the mob will be deleted after the first collision, and a second call to
-		# get_collider will return null, leading to a null pointer when calling
-		# collision.get_collider().is_in_group("mob").
-		# This block of code prevents processing duplicate collisions.
-		if collision.get_collider() == null:
-			continue
-
-		# If the collider is with a mob
-		if collision.get_collider().is_in_group("mob"):
-			var mob = collision.get_collider()
-			# we check that we are hitting it from above.
-			#print(Vector3.UP.dot(collision.get_normal()))
-			if Vector3.UP.dot(collision.get_normal()) > 0.7:
-				# If so, we squash it and bounce.
-				mob.squash()
-				target_velocity.y = bounce_impulse
-				# Prevent further duplicate calls.
-				break
-
-	# Moving the Character
 	velocity = target_velocity
 
 	# Sync replication variables
@@ -307,9 +285,25 @@ func calculate_direction_suffix() -> String:
 		else:
 			return "_right"
 
-func die():
-	hit.emit()
-	queue_free()
+func take_damage(amount: float):
+	if not multiplayer.is_server():
+		return
+		
+	health -= amount
+	print("Player hit! Health remaining: ", health)
+	
+	_update_health_ui()
+	
+	if health <= 0:
+		_die_on_server()
 
-func _on_mob_detector_body_entered(_body: Node3D) -> void:
-	die()
+func _update_health_ui():
+	if has_node("StatusBarAnchor/Sprite3D/SubViewport/HealthBar"):
+		$StatusBarAnchor/Sprite3D/SubViewport/HealthBar.value = health
+
+func _die_on_server():
+	# Handle respawning or death logic here
+	print("Player died!")
+	# Since the PlayerSpawner created this node, 
+	# queue_free() on server will sync to all clients.
+	queue_free()
