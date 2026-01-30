@@ -258,7 +258,7 @@ func update_sprite_visuals():
 		if sprite.sprite_frames.has_animation(final_anim):
 			# If transitioning between directions of the same action (like jumping),
 			# keep the current frame so the animation doesn't "restart"
-			if anim_base in sprite.animation:
+			if "jumping" in sprite.animation and "jumping" in final_anim:
 				var current_frame = sprite.frame
 				sprite.animation = final_anim
 				sprite.frame = current_frame
