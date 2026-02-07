@@ -645,6 +645,7 @@ size = 4.217
 
 [node name="Sprite3D" type="Sprite3D" parent="StatusBarAnchor"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.3585339, 0)
+pixel_size = 0.005
 billboard = 1
 texture = SubResource("ViewportTexture_qlg0r")
 

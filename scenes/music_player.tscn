@@ -1,3 +1,8 @@
-[gd_scene format=3 uid="uid://bx88i1rpik5l1"]
+[gd_scene load_steps=2 format=3 uid="uid://bx88i1rpik5l1"]
+
+[ext_resource type="AudioStream" uid="uid://qnl0mndglgs5" path="res://art/music/WSBM1.ogg" id="1_jxdhu"]
 
 [node name="MusicPlayer" type="AudioStreamPlayer"]
+stream = ExtResource("1_jxdhu")
+volume_db = -30.0
+autoplay = true
