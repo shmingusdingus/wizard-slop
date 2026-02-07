@@ -18,6 +18,8 @@ extends CharacterBody3D
 # player velocity vector exported for use in multiplayerspawner replication
 @export var sync_velocity := Vector3.ZERO
 var target_velocity = Vector3.ZERO
+var casting: bool = false
+
 
 @onready var sprite := $Pivot/AnimatedSprite3D
 @onready var rune_label: Label3D = $RuneLabel
@@ -62,7 +64,8 @@ func _unhandled_input(event):
 	elif event.is_action_pressed("rune_motion"):
 		_try_add_rune(RUNE_STRAIGHT)
 	elif event.is_action_pressed("rune_cast"):
-		_cast_spell()
+		if not casting:
+			_cast_spell()
 
 func _try_add_rune(rune: Rune) -> void:
 	if rune is ElementRune and element == null:
@@ -101,6 +104,8 @@ func _cast_spell():
 		print("Incomplete spell")
 		await _fizzle_spell()
 		return
+
+	casting = true
 
 	var e_path = element.resource_path
 	var f_path = form.resource_path
@@ -141,6 +146,7 @@ func _clear_spell():
 	form = null
 	motion = null
 	_update_label()
+	casting = false
 
 func _fizzle_pulse() -> void:
 	var tween := create_tween()
