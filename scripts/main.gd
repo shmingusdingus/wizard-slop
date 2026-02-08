@@ -25,7 +25,31 @@ func _on_projectile_spawn_requested(data: Dictionary) -> Node:
 func _unhandled_input(event):
 	if event.is_action_pressed("ui_accept") and $UserInterface/Retry.visible:
 		get_tree().reload_current_scene()
-	if event.is_action_pressed("create_server"):
-		NetworkHandler.start_server()
-	if event.is_action_pressed("create_client"):
-		NetworkHandler.start_client()
+
+func _on_server_button_pressed() -> void:
+	if $UserInterface/ConnectionMenu/ConnectionContainer/ServerPort:
+		var port_text = $UserInterface/ConnectionMenu/ConnectionContainer/ServerPort.text
+		var port = 24454
+
+		if not port_text.is_empty():
+			port = int(port_text)
+
+		if port >= 1 and port <= 65535:
+			NetworkHandler.start_server(port)
+			$UserInterface/ConnectionMenu.hide()
+
+func _on_client_button_pressed() -> void:
+	if $UserInterface/ConnectionMenu/ConnectionContainer/ServerIp and $UserInterface/ConnectionMenu/ConnectionContainer/ServerPort:
+		var ip = $UserInterface/ConnectionMenu/ConnectionContainer/ServerIp.text
+		var port_text = $UserInterface/ConnectionMenu/ConnectionContainer/ServerPort.text
+		var port = 24454
+		
+		if ip.is_empty():
+			ip = "127.0.0.1"
+
+		if not port_text.is_empty():
+			port = int(port_text)
+
+		if ip.is_valid_ip_address() and port >= 1 and port <= 65535:
+			NetworkHandler.start_client(ip, port)
+			$UserInterface/ConnectionMenu.hide()
