@@ -5,7 +5,7 @@ var direction: Vector3 = Vector3.ZERO
 var speed: float = 10.0
 var velocity: Vector3 = Vector3.ZERO
 var element_color: Color = Color(1,1,1)
-var damage: float = 1.0
+var damage: float = 50.0
 var status_effect: String = ""
 var orientation: Vector3 = Vector3.ZERO
 

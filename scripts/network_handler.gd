@@ -1,17 +1,16 @@
 extends Node
 
-const IP_ADDRESS: String = "localhost"
-const PORT: int = 24454
+#const IP_ADDRESS: String = "localhost"
+#const PORT: int = 24454
 const MAX_CLIENTS: int = 3
 var peer: ENetMultiplayerPeer
 
-
-func start_server() -> void:
+func start_server(port: int) -> void:
 	peer = ENetMultiplayerPeer.new()
-	peer.create_server(PORT, MAX_CLIENTS)
+	peer.create_server(port, MAX_CLIENTS)
 	multiplayer.multiplayer_peer = peer
 
-func start_client() -> void:
+func start_client(ip: String, port: int) -> void:
 	peer = ENetMultiplayerPeer.new()
-	peer.create_client(IP_ADDRESS, PORT)
+	peer.create_client(ip, port)
 	multiplayer.multiplayer_peer = peer

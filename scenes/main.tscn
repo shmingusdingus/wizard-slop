@@ -1,22 +1,54 @@
-[gd_scene load_steps=8 format=3 uid="uid://bta11quox1k0i"]
+[gd_scene load_steps=10 format=3 uid="uid://bta11quox1k0i"]
 
 [ext_resource type="Script" uid="uid://c2575xxndpfwr" path="res://scripts/main.gd" id="1_tbgi4"]
 [ext_resource type="PackedScene" uid="uid://d281rpu4m46xo" path="res://scenes/player.tscn" id="2_tefeu"]
 [ext_resource type="PackedScene" uid="uid://na58botoqv7o" path="res://scenes/arena.tscn" id="3_o6xl0"]
 [ext_resource type="Script" uid="uid://cdrhor5evn08p" path="res://scripts/multiplayer_spawner.gd" id="4_o6xl0"]
 [ext_resource type="FontFile" uid="uid://d26ygm7uwqeib" path="res://fonts/Montserrat-Medium.ttf" id="4_tipki"]
-[ext_resource type="Script" uid="uid://s0w0ysvlcyfh" path="res://scripts/score_label.gd" id="5_85g3d"]
+[ext_resource type="Script" uid="uid://bx44wlu5prwpj" path="res://scenes/user_interface.gd" id="6_tefeu"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_tefeu"]
+content_margin_left = 4.0
+content_margin_top = 4.0
+content_margin_right = 4.0
+content_margin_bottom = 4.0
+bg_color = Color(1, 1, 1, 0.75)
+draw_center = false
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+corner_radius_top_left = 3
+corner_radius_top_right = 3
+corner_radius_bottom_right = 3
+corner_radius_bottom_left = 3
+corner_detail = 5
+expand_margin_left = 2.0
+expand_margin_top = 2.0
+expand_margin_right = 2.0
+expand_margin_bottom = 2.0
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_o6xl0"]
 
 [sub_resource type="Theme" id="Theme_lquwl"]
 default_font = ExtResource("4_tipki")
 default_font_size = 22
 Label/colors/font_color = Color(0, 0, 0, 1)
+Label/colors/font_outline_color = Color(0, 0, 0, 1)
+Label/colors/font_shadow_color = Color(0, 0, 0, 0)
+Label/constants/line_spacing = 3
+Label/constants/outline_size = 0
+Label/constants/shadow_offset_x = 1
+Label/constants/shadow_offset_y = 1
+Label/constants/shadow_outline_size = 1
 Label/fonts/font = ExtResource("4_tipki")
+Label/styles/focus = SubResource("StyleBoxFlat_tefeu")
+Label/styles/normal = SubResource("StyleBoxEmpty_o6xl0")
 
 [node name="Main" type="Node"]
 script = ExtResource("1_tbgi4")
 
-[node name="MultiplayerSpawner" type="MultiplayerSpawner" parent="." node_paths=PackedStringArray("team_zed_pos_spawn", "team_zed_neg_spawn")]
+[node name="MultiplayerSpawner" type="MultiplayerSpawner" parent="." node_paths=PackedStringArray("team_zed_pos_spawn", "team_zed_neg_spawn") groups=["player_spawner"]]
 _spawnable_scenes = PackedStringArray("uid://d281rpu4m46xo")
 spawn_path = NodePath("../Players")
 script = ExtResource("4_o6xl0")
@@ -42,26 +74,18 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 theme = SubResource("Theme_lquwl")
+script = ExtResource("6_tefeu")
 
-[node name="ScoreLabel" type="Label" parent="UserInterface"]
-layout_mode = 0
-offset_left = 41.0
-offset_top = 37.0
-offset_right = 102.0
-offset_bottom = 60.0
-text = "Score: 0"
-script = ExtResource("5_85g3d")
-
-[node name="Retry" type="ColorRect" parent="UserInterface"]
+[node name="RespawnScreen" type="ColorRect" parent="UserInterface"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-color = Color(0, 0, 0, 0.14901961)
+color = Color(0, 0, 0, 0.1254902)
 
-[node name="RetryLabel" type="Label" parent="UserInterface/Retry"]
+[node name="RespawnContainer" type="VBoxContainer" parent="UserInterface/RespawnScreen"]
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -69,12 +93,51 @@ anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
 offset_left = -20.0
-offset_top = -14.0
+offset_top = -20.0
 offset_right = 20.0
-offset_bottom = 14.0
+offset_bottom = 20.0
 grow_horizontal = 2
 grow_vertical = 2
-text = "Press \"Space\" to Retry"
+
+[node name="RespawnButton" type="Button" parent="UserInterface/RespawnScreen/RespawnContainer"]
+layout_mode = 2
+text = "Respawn"
+
+[node name="ConnectionScreen" type="ColorRect" parent="UserInterface"]
+layout_mode = 1
+offset_right = 720.0
+offset_bottom = 540.0
+color = Color(0, 0, 0, 0.1254902)
+
+[node name="ConnectionContainer" type="VBoxContainer" parent="UserInterface/ConnectionScreen"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -54.0
+offset_top = -18.0
+offset_right = 54.0
+offset_bottom = 18.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="ServerIp" type="LineEdit" parent="UserInterface/ConnectionScreen/ConnectionContainer"]
+layout_mode = 2
+placeholder_text = "127.0.0.1"
+
+[node name="ServerPort" type="LineEdit" parent="UserInterface/ConnectionScreen/ConnectionContainer"]
+layout_mode = 2
+placeholder_text = "24454"
+
+[node name="ClientButton" type="Button" parent="UserInterface/ConnectionScreen/ConnectionContainer"]
+layout_mode = 2
+text = "Start Client"
+
+[node name="ServerButton" type="Button" parent="UserInterface/ConnectionScreen/ConnectionContainer"]
+layout_mode = 2
+text = "Start Server"
 
 [node name="Timer" type="Timer" parent="."]
 wait_time = 0.5
@@ -85,4 +148,6 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 10)
 [node name="SpawnZedNeg" type="Marker3D" parent="."]
 transform = Transform3D(-0.99999994, 0, -8.742277e-08, 0, 1, 0, 8.742277e-08, 0, -0.99999994, 0, 0.5, -10)
 
-[connection signal="timeout" from="Timer" to="." method="_on_mob_timer_timeout"]
+[connection signal="pressed" from="UserInterface/RespawnScreen/RespawnContainer/RespawnButton" to="UserInterface" method="_on_respawn_button_pressed"]
+[connection signal="pressed" from="UserInterface/ConnectionScreen/ConnectionContainer/ClientButton" to="UserInterface" method="_on_client_button_pressed"]
+[connection signal="pressed" from="UserInterface/ConnectionScreen/ConnectionContainer/ServerButton" to="UserInterface" method="_on_server_button_pressed"]

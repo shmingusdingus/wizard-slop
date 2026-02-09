@@ -304,8 +304,23 @@ func _update_health_ui():
 		$StatusBarAnchor/Sprite3D/SubViewport/HealthBar.value = health
 
 func _die_on_server():
-	# Handle respawning or death logic here
-	print("Player died!")
-	# Since the PlayerSpawner created this node, 
-	# queue_free() on server will sync to all clients.
+	var dead_player_id = get_multiplayer_authority()
+	notify_client_death.rpc_id(dead_player_id)
+	print("Player ", dead_player_id, " has died.")
+	get_tree().create_timer(10.0).timeout.connect(func():
+		if is_instance_valid(self):
+			queue_free()
+	)
+
+@rpc("any_peer", "reliable")
+func notify_client_death():
+	if multiplayer.get_remote_sender_id() != 1:
+		return
+	GameEvents.local_player_died.emit()
+	acknowledge_death.rpc_id(1)
+
+@rpc("any_peer", "call_local", "reliable")
+func acknowledge_death():
+	if not multiplayer.is_server(): 
+		return
 	queue_free()
