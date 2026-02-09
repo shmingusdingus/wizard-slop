@@ -64,7 +64,6 @@ func remove_player(id: int) -> void:
 	if !multiplayer.is_server(): return
 	
 	player_teams.erase(id)
-	
 	var player_node = get_node(spawn_path).get_node_or_null(str(id))
 	if player_node:
 		player_node.queue_free()
