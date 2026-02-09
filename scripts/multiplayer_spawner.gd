@@ -21,12 +21,26 @@ func _custom_spawn_function(data: Dictionary) -> Node:
 	return player
 
 func spawn_player(id: int) -> void:
-	if !multiplayer.is_server(): return
-		
+	if !multiplayer.is_server(): 
+		return
+
 	var spawn_position = calculate_team_spawn_position(id)
-	
+
 	var spawn_data = {"id": id, "pos": spawn_position.global_position, "rot": spawn_position.global_rotation_degrees}
 	spawn(spawn_data) 
+
+@rpc("any_peer", "call_local", "reliable")
+func request_respawn():
+	if not multiplayer.is_server():
+		return
+
+	var sender_id = multiplayer.get_remote_sender_id()
+	var player_node = get_node(spawn_path).get_node_or_null(str(sender_id))
+
+	if player_node: #and not player_node.is_queued_for_deletion():
+		return
+
+	spawn_player(sender_id)
 
 func calculate_team_spawn_position(id: int):
 	# Calculate which team has fewer players
@@ -37,8 +51,11 @@ func calculate_team_spawn_position(id: int):
 		else: team_zed_neg_count += 1
 
 	var assigned_team = 0 if team_zed_pos_count <= team_zed_neg_count else 1
-	player_teams[id] = assigned_team
-	
+	if player_teams.get(id):
+		assigned_team = player_teams.get(id)
+	else:
+		player_teams[id] = assigned_team
+
 	var spawn_position = team_zed_pos_spawn if assigned_team == 0 else team_zed_neg_spawn
 	
 	return spawn_position
