@@ -8,7 +8,6 @@ var player_teams = {}
 
 func _ready() -> void:
 	spawn_function = _custom_spawn_function
-	
 	multiplayer.peer_connected.connect(spawn_player)
 	multiplayer.peer_disconnected.connect(remove_player)
 
@@ -17,7 +16,7 @@ func _custom_spawn_function(data: Dictionary) -> Node:
 	player.name = str(data.id)
 	player.position = data.pos
 	player.rotation_degrees.y = data.rot.y
-	
+
 	return player
 
 func spawn_player(id: int) -> void:
@@ -62,7 +61,7 @@ func calculate_team_spawn_position(id: int):
 
 func remove_player(id: int) -> void:
 	if !multiplayer.is_server(): return
-	
+
 	player_teams.erase(id)
 	var player_node = get_node(spawn_path).get_node_or_null(str(id))
 	if player_node:

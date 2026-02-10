@@ -45,6 +45,8 @@ func _enter_tree() -> void:
 	set_multiplayer_authority(name.to_int())
 
 func _ready():
+	var animated_sprite = $Pivot/AnimatedSprite3D
+	print("sprite height: " + str(animated_sprite.sprite_frames.get_frame_texture("idle_forward",0).get_height()) + "  sprite width: "+ str(animated_sprite.sprite_frames.get_frame_texture("idle_forward",0).get_width()))
 	$StatusSynchronizer.set_multiplayer_authority(1)
 	_update_health_ui()
 	sprite.play("idle_forward")

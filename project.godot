@@ -25,6 +25,7 @@ GameEvents="*res://scripts/game_events.gd"
 
 window/size/viewport_width=720
 window/size/viewport_height=540
+window/stretch/scale_mode="integer"
 
 [filesystem]
 
@@ -106,4 +107,7 @@ rune_cast={
 
 [rendering]
 
+textures/canvas_textures/default_texture_filter=0
 anti_aliasing/quality/msaa_3d=2
+2d/snap/snap_2d_transforms_to_pixel=true
+2d/snap/snap_2d_vertices_to_pixel=true
