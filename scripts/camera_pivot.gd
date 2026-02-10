@@ -14,4 +14,4 @@ func _ready():
 func _process(_delta):
 	if !get_parent().is_multiplayer_authority(): return
 
-	global_position.x = get_parent().global_position.x
+	global_position = get_parent().global_position

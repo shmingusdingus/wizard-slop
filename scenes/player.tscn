@@ -520,9 +520,9 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_606se")
 }],
-"loop": false,
+"loop": true,
 "name": &"walk_back",
-"speed": 8.0
+"speed": 12.0
 }, {
 "frames": [{
 "duration": 1.0,
@@ -545,7 +545,7 @@ animations = [{
 }],
 "loop": true,
 "name": &"walk_forward",
-"speed": 8.0
+"speed": 12.0
 }, {
 "frames": [{
 "duration": 1.0,
@@ -568,7 +568,7 @@ animations = [{
 }],
 "loop": true,
 "name": &"walk_left",
-"speed": 8.0
+"speed": 12.0
 }, {
 "frames": [{
 "duration": 1.0,
@@ -591,11 +591,11 @@ animations = [{
 }],
 "loop": true,
 "name": &"walk_right",
-"speed": 8.0
+"speed": 12.0
 }]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_hqtel"]
-size = Vector3(1, 1.09375, 1)
+size = Vector3(1.0665283, 0.8535156, 1.0375977)
 
 [sub_resource type="ViewportTexture" id="ViewportTexture_qlg0r"]
 viewport_path = NodePath("StatusBarAnchor/Sprite3D/SubViewport")
@@ -614,37 +614,37 @@ replication_config = SubResource("SceneReplicationConfig_tuyoq")
 [node name="Pivot" type="Node3D" parent="."]
 
 [node name="AnimatedSprite3D" type="AnimatedSprite3D" parent="Pivot"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.19892406, 0)
-pixel_size = 0.05
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.15, 0)
+pixel_size = 0.0313
 billboard = 2
 alpha_cut = 2
 texture_filter = 0
 sprite_frames = SubResource("SpriteFrames_tkwlq")
-animation = &"idle_forward"
+animation = &"walk_right"
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 0.99935067, -0.03603322, 0, 0.03603322, 0.99935067, 0.028216958, 0.16538249, -0.023315385)
+transform = Transform3D(1, 0, 0, 0, 0.99935067, -0.03603322, 0, 0.03603322, 0.99935067, 0.06148112, 0.28609905, -0.037773795)
 shape = SubResource("BoxShape3D_hqtel")
 
 [node name="RuneLabel" type="Label3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.3555684, 0)
 billboard = 1
 font_size = 84
 outline_size = 50
 uppercase = true
 
 [node name="CameraPivot" type="Marker3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 0.9510564, 0.30901697, 0, -0.30901697, 0.9510564, 0, 0, 0)
+transform = Transform3D(1, 0, 0, 0, 0.9612616, 0.27563733, 0, -0.27563733, 0.9612616, 0, 0, 0)
 script = ExtResource("5_sweqy")
 
 [node name="Camera3D" type="Camera3D" parent="CameraPivot"]
-transform = Transform3D(1, 0, 0, 0, 1.0000001, 0, 0, 0, 1.0000001, 0, 0.05058527, 9.844313)
-size = 4.217
+transform = Transform3D(1, 0, 0, 0, 1.0000001, 0, 0, 0, 1.0000001, 0, 1, 4)
+size = 16.0
 
 [node name="StatusBarAnchor" type="Node3D" parent="."]
 
 [node name="Sprite3D" type="Sprite3D" parent="StatusBarAnchor"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.1682472, 0.29788136, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.82272404, 0.29788136, 0)
 pixel_size = 0.002
 billboard = 1
 texture = SubResource("ViewportTexture_qlg0r")

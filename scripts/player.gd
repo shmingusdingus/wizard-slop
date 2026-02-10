@@ -45,8 +45,8 @@ func _enter_tree() -> void:
 	set_multiplayer_authority(name.to_int())
 
 func _ready():
-	var animated_sprite = $Pivot/AnimatedSprite3D
-	print("sprite height: " + str(animated_sprite.sprite_frames.get_frame_texture("idle_forward",0).get_height()) + "  sprite width: "+ str(animated_sprite.sprite_frames.get_frame_texture("idle_forward",0).get_width()))
+	#var animated_sprite = $Pivot/AnimatedSprite3D
+	#print("sprite height: " + str(animated_sprite.sprite_frames.get_frame_texture("idle_forward",0).get_height()) + "  sprite width: "+ str(animated_sprite.sprite_frames.get_frame_texture("idle_forward",0).get_width()))
 	$StatusSynchronizer.set_multiplayer_authority(1)
 	_update_health_ui()
 	sprite.play("idle_forward")
@@ -124,9 +124,8 @@ func request_spell_spawn(e_path: String, f_path: String, m_path: String):
 	
 	var pivot = $Pivot
 	var forward_dir: Vector3 = (-pivot.global_transform.basis.z).normalized()
-	
 	var spawn_transform = pivot.global_transform
-	spawn_transform.origin = pivot.global_position + (forward_dir * 1.5)
+	spawn_transform.origin = pivot.global_position + (forward_dir) + (Vector3.UP*.5)
 	
 	var data = {
 		"e": e_path,
@@ -200,8 +199,8 @@ func _physics_process(delta):
 
 	if input_dir != Vector3.ZERO:
 		$Pivot.basis = Basis.looking_at(input_dir.normalized())
-	else:
-		$Pivot.basis = Basis.looking_at(Vector3.FORWARD)
+	#else:
+		#$Pivot.basis = Basis.looking_at(Vector3.FORWARD)
 
 	# Ground Velocity
 	if speed:
@@ -245,14 +244,14 @@ func update_sprite_visuals():
 	# 2. Determine Directional Suffix
 	var suffix = calculate_direction_suffix()
 	var final_anim = anim_base + suffix
-
+	
 	# 3. Apply Animation
 	if sprite.animation != final_anim:
 		# Safety check to ensure the animation exists in the SpriteFrames
 		if sprite.sprite_frames.has_animation(final_anim):
 			# If transitioning between directions of the same action (like jumping),
 			# keep the current frame so the animation doesn't "restart"
-			if "jumping" in sprite.animation and "jumping" in final_anim:
+			if anim_base in sprite.animation:
 				var current_frame = sprite.frame
 				sprite.animation = final_anim
 				sprite.frame = current_frame

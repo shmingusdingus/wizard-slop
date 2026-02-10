@@ -21,10 +21,8 @@ func _on_body_entered(body):
 
 	if body.has_method("take_damage"):
 		body.take_damage(damage)
-		queue_free()
-	
-	elif body is StaticBody3D:
-		queue_free()
+
+	queue_free()
 
 func initialize(spell: Spell):
 	spell.apply_to_projectile(self)

@@ -6,10 +6,14 @@
 
 [sub_resource type="SphereMesh" id="SphereMesh_eymup"]
 material = SubResource("StandardMaterial3D_eymup")
+radius = 0.2
+height = 0.4
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_0l1rr"]
+radius = 0.2
 
 [node name="BallProjectile" type="Area3D"]
+collision_mask = 5
 script = ExtResource("1_eymup")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
