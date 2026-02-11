@@ -32,6 +32,8 @@ const RUNE_BALL := preload("res://spells/runes/forms/form_ball.tres")
 const RUNE_BEAM := preload("res://spells/runes/forms/form_beam.tres")
 
 const RUNE_STRAIGHT := preload("res://spells/runes/motions/motion_straight.tres")
+const RUNE_LEFT := preload("res://spells/runes/motions/motion_left.tres")
+const RUNE_RIGHT := preload("res://spells/runes/motions/motion_right.tres")
 
 const BALL_PROJECTILE := preload("res://spells/projectiles/ball/ball_projectile.tscn")
 const BEAM_PROJECTILE := preload("res://spells/projectiles/beam/beam_projectile.tscn")
@@ -63,8 +65,12 @@ func _unhandled_input(event):
 		_try_add_rune(RUNE_BALL)
 	elif event.is_action_pressed("rune_form_beam"):
 		_try_add_rune(RUNE_BEAM)
-	elif event.is_action_pressed("rune_motion"):
+	elif event.is_action_pressed("rune_motion_straight"):
 		_try_add_rune(RUNE_STRAIGHT)
+	elif event.is_action_pressed("rune_motion_left"):
+		_try_add_rune(RUNE_LEFT)
+	elif event.is_action_pressed("rune_motion_right"):
+		_try_add_rune(RUNE_RIGHT)
 	elif event.is_action_pressed("rune_cast"):
 		if not casting:
 			_cast_spell()

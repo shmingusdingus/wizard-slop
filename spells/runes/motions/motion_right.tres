@@ -1,0 +1,9 @@
+[gd_resource type="Resource" script_class="MotionRuneCurve" load_steps=2 format=3 uid="uid://bukvm4pewre8f"]
+
+[ext_resource type="Script" uid="uid://s2a0ki55fg7" path="res://spells/runes/motions/motion_curve.gd" id="1_206rr"]
+
+[resource]
+script = ExtResource("1_206rr")
+id = "motion_right"
+display_name = "right"
+metadata/_custom_type_script = "uid://b753cmk6q0ugk"

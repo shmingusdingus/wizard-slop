@@ -1,0 +1,2 @@
+extends MotionRune
+class_name MotionRuneStraight

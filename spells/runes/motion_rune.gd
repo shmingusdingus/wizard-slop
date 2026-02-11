@@ -1,7 +1,10 @@
 extends Rune
 class_name MotionRune
 
-@export var velocity: Vector3 = Vector3.FORWARD
+@export var speed_multiplier: float = 1.0
 
 func apply_to_projectile(proj: SpellProjectile):
-	proj.set_velocity(proj.direction)
+	proj.motion_rune = self
+
+func update_position(proj: SpellProjectile, delta: float) -> Vector3:
+	return proj.direction * proj.speed * speed_multiplier * delta

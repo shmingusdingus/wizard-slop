@@ -1,6 +1,6 @@
-[gd_resource type="Resource" script_class="MotionRune" load_steps=2 format=3 uid="uid://rs5jualouyh7"]
+[gd_resource type="Resource" script_class="MotionRuneStraight" load_steps=2 format=3 uid="uid://rs5jualouyh7"]
 
-[ext_resource type="Script" uid="uid://bhhb2t4r3tf3w" path="res://spells/runes/motion_rune.gd" id="1_q2y3v"]
+[ext_resource type="Script" uid="uid://61jg7acwxtdo" path="res://spells/runes/motions/motion_straight.gd" id="1_q2y3v"]
 
 [resource]
 script = ExtResource("1_q2y3v")

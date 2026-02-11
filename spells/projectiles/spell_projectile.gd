@@ -9,6 +9,9 @@ var damage: float = 50.0
 var status_effect: String = ""
 var orientation: Vector3 = Vector3.ZERO
 
+var lifetime: float = 0.0
+var motion_rune: MotionRune
+
 func _ready():
 	body_entered.connect(_on_body_entered)
 
@@ -46,5 +49,16 @@ func set_velocity(dir: Vector3):
 	velocity = dir.normalized() * velocity.length()
 
 func _physics_process(delta):
-	velocity = direction * speed
-	global_position += velocity * delta
+	lifetime += delta
+	var motion_step: Vector3
+
+	if motion_rune:
+		motion_step = motion_rune.update_position(self, delta)
+	else:
+		motion_step = direction * speed * delta
+
+	if motion_step.length_squared() > 0.0001:
+		var target_pos = global_position + motion_step
+		look_at(target_pos, Vector3.UP)
+
+	global_position += motion_step
