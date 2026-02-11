@@ -1,14 +1,17 @@
 extends Area3D
 class_name SpellProjectile
 
-var direction: Vector3 = Vector3.ZERO
+# Base Rune Related
 var speed: float = 1.0
-var velocity: Vector3 = Vector3.ZERO
-var element_color: Color = Color(1,1,1)
 var damage: float = 1.0
-var status_effect: String = ""
-var orientation: Vector3 = Vector3.ZERO
 
+# Element Related
+var element_color: Color = Color(1,1,1)
+var status_effect: String = ""
+
+# Motion Related
+var direction: Vector3 = Vector3.ZERO
+var spawn_basis: Basis
 var lifetime: float = 0.0
 var motion_rune: MotionRune
 
@@ -38,15 +41,13 @@ func set_element_color(c: Color):
 
 func set_direction(dir: Vector3):
 	direction = dir.normalized()
+	spawn_basis = Basis.looking_at(direction, Vector3.UP)
 
 func set_damage(d: float):
 	damage = damage * d
 
 func set_speed(s: float):
 	speed = speed * s
-
-func set_velocity(dir: Vector3):
-	velocity = dir.normalized() * velocity.length()
 
 func _physics_process(delta):
 	lifetime += delta

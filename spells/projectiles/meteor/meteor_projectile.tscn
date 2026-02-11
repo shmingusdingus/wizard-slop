@@ -1,0 +1,23 @@
+[gd_scene load_steps=5 format=3 uid="uid://rje42ls3fmf5"]
+
+[ext_resource type="Script" uid="uid://cvh030qnmjqg1" path="res://spells/projectiles/beam/beam_projectile.gd" id="1_yvxnh"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_je04e"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_xce6d"]
+material = SubResource("StandardMaterial3D_je04e")
+size = Vector3(1.5, 1.5, 1.5)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_je04e"]
+size = Vector3(1.5, 1.5, 1.5)
+
+[node name="MeteorProjectile" type="Area3D"]
+collision_layer = 2
+script = ExtResource("1_yvxnh")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+mesh = SubResource("BoxMesh_xce6d")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, -1, 0, 1, -4.371139e-08, 0, 0, 0)
+shape = SubResource("BoxShape3D_je04e")

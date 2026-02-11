@@ -16,6 +16,8 @@ func update_position(proj: SpellProjectile, delta: float) -> Vector3:
 		# Ends up being a spiral or sharp hook
 		curve_factor = (proj.lifetime ** 2) * curve_intensity
 
-	var local_right = proj.global_transform.basis.x
-	var lateral_movement = local_right * curve_factor * delta
-	return forward + lateral_movement
+	var side_dir = proj.spawn_basis.x
+
+	#var local_right = proj.global_transform.basis.x
+	#var lateral_movement = local_right * curve_factor * delta
+	return forward + (side_dir * curve_factor * delta)

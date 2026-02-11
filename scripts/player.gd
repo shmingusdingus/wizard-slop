@@ -30,6 +30,7 @@ const RUNE_ICE := preload("res://spells/runes/elements/element_ice.tres")
 
 const RUNE_BALL := preload("res://spells/runes/forms/form_ball.tres")
 const RUNE_BEAM := preload("res://spells/runes/forms/form_beam.tres")
+const RUNE_METEOR := preload("res://spells/runes/forms/form_meteor.tres")
 
 const RUNE_STRAIGHT := preload("res://spells/runes/motions/motion_straight.tres")
 const RUNE_LEFT := preload("res://spells/runes/motions/motion_left.tres")
@@ -37,6 +38,7 @@ const RUNE_RIGHT := preload("res://spells/runes/motions/motion_right.tres")
 
 const BALL_PROJECTILE := preload("res://spells/projectiles/ball/ball_projectile.tscn")
 const BEAM_PROJECTILE := preload("res://spells/projectiles/beam/beam_projectile.tscn")
+const METEOR_PROJECTILE := preload("res://spells/projectiles/meteor/meteor_projectile.tscn")
 
 # Current spell state (grammar-enforced)
 var element: ElementRune = null
@@ -65,6 +67,8 @@ func _unhandled_input(event):
 		_try_add_rune(RUNE_BALL)
 	elif event.is_action_pressed("rune_form_beam"):
 		_try_add_rune(RUNE_BEAM)
+	elif event.is_action_pressed("rune_form_meteor"):
+		_try_add_rune(RUNE_METEOR)
 	elif event.is_action_pressed("rune_motion_straight"):
 		_try_add_rune(RUNE_STRAIGHT)
 	elif event.is_action_pressed("rune_motion_left"):
@@ -136,7 +140,7 @@ func request_spell_spawn(e_path: String, f_path: String, m_path: String, fwd_dir
 	var pivot = $Pivot
 	#var look_dir: Vector3 = (-pivot.global_transform.basis.z).normalized()
 	var spawn_transform = pivot.global_transform
-	spawn_transform.origin = pivot.global_position + (fwd_dir) + (Vector3.UP*.5)
+	spawn_transform.origin = pivot.global_position + (fwd_dir * 1.5) + (Vector3.UP*.5)
 	spawn_transform.basis = Basis.looking_at(fwd_dir, Vector3.UP)
 
 	var data = {

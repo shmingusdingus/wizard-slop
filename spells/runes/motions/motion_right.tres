@@ -4,7 +4,6 @@
 
 [resource]
 script = ExtResource("1_206rr")
-curve_intensity = 20.0
 id = "motion_right"
 display_name = "right"
 damage_modifier = 2.5
