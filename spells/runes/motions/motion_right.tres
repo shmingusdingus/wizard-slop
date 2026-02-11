@@ -4,6 +4,9 @@
 
 [resource]
 script = ExtResource("1_206rr")
+curve_intensity = 20.0
 id = "motion_right"
 display_name = "right"
+damage_modifier = 2.5
+speed_modifier = 2.0
 metadata/_custom_type_script = "uid://b753cmk6q0ugk"

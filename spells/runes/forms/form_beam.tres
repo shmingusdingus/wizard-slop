@@ -6,6 +6,7 @@
 [resource]
 script = ExtResource("2_xnhd4")
 projectile_scene = ExtResource("1_qh6i8")
-base_speed = 40.0
 id = "form_beam"
 display_name = "beam"
+damage_modifier = 1.5
+speed_modifier = 2.0

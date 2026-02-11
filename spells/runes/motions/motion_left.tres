@@ -4,7 +4,9 @@
 
 [resource]
 script = ExtResource("1_ewsvl")
-curve_intensity = -15.0
+curve_intensity = -20.0
 id = "motion_left"
 display_name = "left"
+damage_modifier = 2.5
+speed_modifier = 2.0
 metadata/_custom_type_script = "uid://b753cmk6q0ugk"

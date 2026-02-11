@@ -6,7 +6,7 @@
 [resource]
 script = ExtResource("2_gs25v")
 projectile_scene = ExtResource("1_cmtx1")
-base_speed = 20.0
 id = "form_ball"
 display_name = "ball"
+damage_modifier = 2.0
 metadata/_custom_type_script = "uid://b753cmk6q0ugk"

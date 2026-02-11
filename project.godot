@@ -25,7 +25,6 @@ GameEvents="*res://scripts/game_events.gd"
 
 window/size/viewport_width=720
 window/size/viewport_height=540
-window/stretch/mode="canvas_items"
 
 [filesystem]
 

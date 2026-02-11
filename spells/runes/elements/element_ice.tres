@@ -4,6 +4,8 @@
 
 [resource]
 script = ExtResource("1_f1xxe")
-color = Color(0.08627451, 1, 1, 1)
+color = Color(0.44474897, 0.9955867, 0.9051428, 1)
 id = "element_ice"
 display_name = "ice"
+damage_modifier = 8.0
+speed_modifier = 12.0
