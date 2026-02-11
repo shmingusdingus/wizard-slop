@@ -113,25 +113,31 @@ func _cast_spell():
 	var f_path = form.resource_path
 	var m_path = motion.resource_path
 
-	request_spell_spawn.rpc_id(1, e_path, f_path, m_path)
+	var camera = get_viewport().get_camera_3d()
+	var fwd_dir = -camera.global_transform.basis.z 
+	fwd_dir.y = 0 
+	fwd_dir = fwd_dir.normalized()
+
+	request_spell_spawn.rpc_id(1, e_path, f_path, m_path, fwd_dir)
 
 	await _success_pulse()
 	_clear_spell()
 
 @rpc("any_peer", "call_local", "reliable")
-func request_spell_spawn(e_path: String, f_path: String, m_path: String):
+func request_spell_spawn(e_path: String, f_path: String, m_path: String, fwd_dir: Vector3):
 	if not multiplayer.is_server(): return
 	
 	var pivot = $Pivot
-	var forward_dir: Vector3 = (-pivot.global_transform.basis.z).normalized()
+	#var look_dir: Vector3 = (-pivot.global_transform.basis.z).normalized()
 	var spawn_transform = pivot.global_transform
-	spawn_transform.origin = pivot.global_position + (forward_dir) + (Vector3.UP*.5)
-	
+	spawn_transform.origin = pivot.global_position + (fwd_dir) + (Vector3.UP*.5)
+	spawn_transform.basis = Basis.looking_at(fwd_dir, Vector3.UP)
+
 	var data = {
 		"e": e_path,
 		"f": f_path,
 		"m": m_path,
-		"dir": forward_dir,
+		"dir": fwd_dir,
 		"trans": spawn_transform
 	}
 

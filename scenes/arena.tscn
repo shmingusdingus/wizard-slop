@@ -1,4 +1,4 @@
-[gd_scene load_steps=7 format=3 uid="uid://na58botoqv7o"]
+[gd_scene load_steps=6 format=3 uid="uid://na58botoqv7o"]
 
 [ext_resource type="Texture2D" uid="uid://cbasm4dxovi3r" path="res://art/arena_art/wood_floor.png" id="1_ubfh8"]
 
@@ -9,7 +9,6 @@ size = Vector3(16, 0, 16)
 albedo_color = Color(1, 1, 1, 0)
 albedo_texture = ExtResource("1_ubfh8")
 metallic = 1.0
-clearcoat_enabled = true
 clearcoat = 0.1
 clearcoat_roughness = 0.0
 uv1_scale = Vector3(16, 16, 1)
@@ -19,18 +18,8 @@ texture_filter = 0
 material = SubResource("StandardMaterial3D_wl4x5")
 size = Vector2(16, 16)
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_xdvfk"]
-albedo_color = Color(1, 1, 1, 0)
-albedo_texture = ExtResource("1_ubfh8")
-metallic = 1.0
-clearcoat_enabled = true
-clearcoat = 0.1
-clearcoat_roughness = 0.0
-uv1_scale = Vector3(16, 16, 1)
-texture_filter = 0
-
 [sub_resource type="PlaneMesh" id="PlaneMesh_7ft05"]
-material = SubResource("StandardMaterial3D_xdvfk")
+material = SubResource("StandardMaterial3D_wl4x5")
 size = Vector2(16, 16)
 
 [node name="Arena" type="Node3D"]

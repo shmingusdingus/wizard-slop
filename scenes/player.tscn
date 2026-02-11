@@ -595,7 +595,7 @@ animations = [{
 }]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_hqtel"]
-size = Vector3(1.0665283, 0.8535156, 1.0375977)
+size = Vector3(1.0665283, 0.91259766, 1.0375977)
 
 [sub_resource type="ViewportTexture" id="ViewportTexture_qlg0r"]
 viewport_path = NodePath("StatusBarAnchor/Sprite3D/SubViewport")
@@ -623,7 +623,7 @@ sprite_frames = SubResource("SpriteFrames_tkwlq")
 animation = &"walk_right"
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 0.99935067, -0.03603322, 0, 0.03603322, 0.99935067, 0.06148112, 0.28609905, -0.037773795)
+transform = Transform3D(1, 0, 0, 0, 0.99935067, -0.03603322, 0, 0.03603322, 0.99935067, 0.06148112, 0.25657722, -0.038838252)
 shape = SubResource("BoxShape3D_hqtel")
 
 [node name="RuneLabel" type="Label3D" parent="."]
