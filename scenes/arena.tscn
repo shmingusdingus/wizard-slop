@@ -1,9 +1,11 @@
-[gd_scene load_steps=6 format=3 uid="uid://na58botoqv7o"]
+[gd_scene load_steps=17 format=3 uid="uid://na58botoqv7o"]
 
 [ext_resource type="Texture2D" uid="uid://cbasm4dxovi3r" path="res://art/arena_art/wood_floor.png" id="1_ubfh8"]
+[ext_resource type="Texture2D" uid="uid://3f53ln6n10rg" path="res://art/arena_art/Wrunes1HD.png" id="2_wl4x5"]
+[ext_resource type="Texture2D" uid="uid://cu33mclvck8nr" path="res://art/arena_art/Wbookshelf2.png" id="3_olpmc"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_fu4bq"]
-size = Vector3(16, 0, 16)
+size = Vector3(8, 0, 6)
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_wl4x5"]
 albedo_color = Color(1, 1, 1, 0)
@@ -16,16 +18,80 @@ texture_filter = 0
 
 [sub_resource type="PlaneMesh" id="PlaneMesh_olpmc"]
 material = SubResource("StandardMaterial3D_wl4x5")
-size = Vector2(16, 16)
+size = Vector2(8, 6)
 
-[sub_resource type="PlaneMesh" id="PlaneMesh_7ft05"]
-material = SubResource("StandardMaterial3D_wl4x5")
-size = Vector2(16, 16)
+[sub_resource type="BoxShape3D" id="BoxShape3D_wl4x5"]
+size = Vector3(0, 2, 2)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_xdvfk"]
+albedo_texture = ExtResource("2_wl4x5")
+texture_filter = 0
+texture_repeat = false
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_4ag8t"]
+material = SubResource("StandardMaterial3D_xdvfk")
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_olpmc"]
+size = Vector3(0, 2, 2)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_xdvfk"]
+size = Vector3(6, 0, 2)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_7ft05"]
+albedo_texture = ExtResource("3_olpmc")
+uv1_scale = Vector3(3, 1, 1)
+texture_filter = 0
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_dpxgc"]
+material = SubResource("StandardMaterial3D_7ft05")
+size = Vector2(6, 2)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_oexds"]
+size = Vector3(8, 0, 2)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_naajo"]
+albedo_texture = ExtResource("3_olpmc")
+uv1_scale = Vector3(4, 1, 1)
+texture_filter = 0
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_41jku"]
+material = SubResource("StandardMaterial3D_naajo")
+size = Vector2(8, 2)
 
 [node name="Arena" type="Node3D"]
 
+[node name="Lights" type="Node3D" parent="."]
+
+[node name="OmniLight3D2" type="OmniLight3D" parent="Lights"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4, 2, 0)
+light_color = Color(1, 0.7093983, 0.4386851, 1)
+light_energy = 2.5
+shadow_enabled = true
+omni_range = 20.0
+
+[node name="OmniLight3D3" type="OmniLight3D" parent="Lights"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4, 2, 0)
+light_color = Color(1, 0.7093983, 0.4386851, 1)
+light_energy = 2.5
+shadow_enabled = true
+omni_range = 20.0
+
+[node name="OmniLight3D7" type="OmniLight3D" parent="Lights"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, -8)
+light_color = Color(1, 0.7093983, 0.4386851, 1)
+light_energy = 2.5
+shadow_enabled = true
+omni_range = 20.0
+
+[node name="OmniLight3D8" type="OmniLight3D" parent="Lights"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, 8)
+light_color = Color(1, 0.7093983, 0.4386851, 1)
+light_energy = 2.5
+shadow_enabled = true
+omni_range = 20.0
+
 [node name="GroundZedPos" type="StaticBody3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 10)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 4)
 collision_layer = 4
 collision_mask = 0
 
@@ -36,7 +102,7 @@ shape = SubResource("BoxShape3D_fu4bq")
 mesh = SubResource("PlaneMesh_olpmc")
 
 [node name="GroundZedNeg" type="StaticBody3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -10)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -4)
 collision_layer = 4
 collision_mask = 0
 
@@ -44,62 +110,81 @@ collision_mask = 0
 shape = SubResource("BoxShape3D_fu4bq")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="GroundZedNeg"]
-mesh = SubResource("PlaneMesh_7ft05")
+mesh = SubResource("PlaneMesh_olpmc")
 
-[node name="Lights" type="Node3D" parent="."]
+[node name="MiddleWallExPos" type="StaticBody3D" parent="."]
+transform = Transform3D(-4.371139e-08, -1, 0, -4.371139e-08, 1.9106855e-15, -1, 1, -4.371139e-08, -4.371139e-08, 4, 1, 0)
+collision_layer = 4
+collision_mask = 0
 
-[node name="OmniLight3D" type="OmniLight3D" parent="Lights"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8, 3, 0)
-light_color = Color(1, 0.7093983, 0.4386851, 1)
-light_energy = 2.5
-shadow_enabled = true
-omni_range = 20.0
+[node name="CollisionShape3D" type="CollisionShape3D" parent="MiddleWallExPos"]
+transform = Transform3D(-4.371139e-08, -1, 0, 1, -4.371139e-08, 0, 0, 0, 1, 0, 0, 0)
+shape = SubResource("BoxShape3D_wl4x5")
 
-[node name="OmniLight3D2" type="OmniLight3D" parent="Lights"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -8, 3, 0)
-light_color = Color(1, 0.7093983, 0.4386851, 1)
-light_energy = 2.5
-shadow_enabled = true
-omni_range = 20.0
+[node name="MeshInstance3D" type="MeshInstance3D" parent="MiddleWallExPos"]
+transform = Transform3D(0.99999994, 0, 0, 0, 1, 0, 0, 0, 0.99999994, 0, 0, 0)
+mesh = SubResource("PlaneMesh_4ag8t")
 
-[node name="OmniLight3D3" type="OmniLight3D" parent="Lights"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8, 3, 15)
-light_color = Color(1, 0.7093983, 0.4386851, 1)
-light_energy = 2.5
-shadow_enabled = true
-omni_range = 20.0
+[node name="MiddleWallExNeg" type="StaticBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4, 1, 0)
 
-[node name="OmniLight3D4" type="OmniLight3D" parent="Lights"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -8, 3, 15)
-light_color = Color(1, 0.7093983, 0.4386851, 1)
-light_energy = 2.5
-shadow_enabled = true
-omni_range = 20.0
+[node name="CollisionShape3D" type="CollisionShape3D" parent="MiddleWallExNeg"]
+shape = SubResource("BoxShape3D_olpmc")
 
-[node name="OmniLight3D5" type="OmniLight3D" parent="Lights"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8, 3, -15)
-light_color = Color(1, 0.7093983, 0.4386851, 1)
-light_energy = 2.5
-shadow_enabled = true
-omni_range = 20.0
+[node name="MeshInstance3D" type="MeshInstance3D" parent="MiddleWallExNeg"]
+transform = Transform3D(-4.371138e-08, 0.9999999, 0, 4.371138e-08, 1.9106853e-15, -0.9999998, -0.9999998, -4.3711385e-08, -4.371138e-08, 0, 0, 0)
+mesh = SubResource("PlaneMesh_4ag8t")
 
-[node name="OmniLight3D6" type="OmniLight3D" parent="Lights"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -8, 3, -15)
-light_color = Color(1, 0.7093983, 0.4386851, 1)
-light_energy = 2.5
-shadow_enabled = true
-omni_range = 20.0
+[node name="WallZedPosExPos" type="StaticBody3D" parent="."]
+transform = Transform3D(-4.371139e-08, -1, 0, -4.371139e-08, 1.9106855e-15, -1, 1, -4.371139e-08, -4.371139e-08, 4, 1, 4)
 
-[node name="OmniLight3D7" type="OmniLight3D" parent="Lights"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3, -20)
-light_color = Color(1, 0.7093983, 0.4386851, 1)
-light_energy = 2.5
-shadow_enabled = true
-omni_range = 20.0
+[node name="CollisionShape3D" type="CollisionShape3D" parent="WallZedPosExPos"]
+shape = SubResource("BoxShape3D_xdvfk")
 
-[node name="OmniLight3D8" type="OmniLight3D" parent="Lights"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3, 20)
-light_color = Color(1, 0.7093983, 0.4386851, 1)
-light_energy = 2.5
-shadow_enabled = true
-omni_range = 20.0
+[node name="MeshInstance3D" type="MeshInstance3D" parent="WallZedPosExPos"]
+mesh = SubResource("PlaneMesh_dpxgc")
+
+[node name="WallZedNegExPos" type="StaticBody3D" parent="."]
+transform = Transform3D(-4.371139e-08, -1, 0, -4.371139e-08, 1.9106855e-15, -1, 1, -4.371139e-08, -4.371139e-08, 4, 1, -4)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="WallZedNegExPos"]
+shape = SubResource("BoxShape3D_xdvfk")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="WallZedNegExPos"]
+mesh = SubResource("PlaneMesh_dpxgc")
+
+[node name="WallZedPosExNeg" type="StaticBody3D" parent="."]
+transform = Transform3D(-4.371139e-08, 1, -4.371139e-08, 0, -4.371139e-08, -1, -1, -4.371139e-08, 1.9106855e-15, -4, 1, 4)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="WallZedPosExNeg"]
+shape = SubResource("BoxShape3D_xdvfk")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="WallZedPosExNeg"]
+mesh = SubResource("PlaneMesh_dpxgc")
+
+[node name="WallZedNegExNeg" type="StaticBody3D" parent="."]
+transform = Transform3D(-4.371139e-08, 1, -4.371139e-08, 0, -4.371139e-08, -1, -1, -4.371139e-08, 1.9106855e-15, -4, 1, -4)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="WallZedNegExNeg"]
+shape = SubResource("BoxShape3D_xdvfk")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="WallZedNegExNeg"]
+mesh = SubResource("PlaneMesh_dpxgc")
+
+[node name="WallZedNeg" type="StaticBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, -1, 0, 1, -4.371139e-08, 0, 1, -7)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="WallZedNeg"]
+shape = SubResource("BoxShape3D_oexds")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="WallZedNeg"]
+mesh = SubResource("PlaneMesh_41jku")
+
+[node name="WallZedPos" type="StaticBody3D" parent="."]
+transform = Transform3D(-1, -8.742278e-08, 3.821371e-15, 0, -4.371139e-08, -1, 8.742278e-08, -1, 4.371139e-08, 0, 1, 7)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="WallZedPos"]
+shape = SubResource("BoxShape3D_oexds")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="WallZedPos"]
+mesh = SubResource("PlaneMesh_41jku")

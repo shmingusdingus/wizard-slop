@@ -5,14 +5,11 @@ extends CharacterBody3D
 		health = value
 		_update_health_ui()
 # How fast the player moves in meters per second.
-@export var speed = 14
+@export var speed = 6
 # The downward acceleration when in the air, in meters per second squared.
 @export var fall_acceleration = 75
 # Vertical impulse applied to the character upon jumping in meters per second.
-@export var jump_impulse = 20
-# Vertical impulse applied to the character upon bouncing over a mob in
-# meters per second.
-@export var bounce_impulse = 16
+@export var jump_impulse = 15
 # is_on_floor() boolean exported for use in multiplayerspawner replication
 @export var sync_on_floor := true
 # player velocity vector exported for use in multiplayerspawner replication

@@ -620,7 +620,7 @@ billboard = 2
 alpha_cut = 2
 texture_filter = 0
 sprite_frames = SubResource("SpriteFrames_tkwlq")
-animation = &"walk_right"
+animation = &"walk_back"
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 0.99935067, -0.03603322, 0, 0.03603322, 0.99935067, 0.06148112, 0.25657722, -0.038838252)
