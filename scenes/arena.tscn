@@ -5,7 +5,7 @@
 [ext_resource type="Texture2D" uid="uid://c7emnaoif84vj" path="res://art/arena_art/Wbookshelf2.png" id="3_olpmc"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_7ft05"]
-size = Vector3(8, 2, 2)
+size = Vector3(8, 2, 0.5)
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_fu4bq"]
 size = Vector3(8, 0, 16)
@@ -66,31 +66,9 @@ size = Vector2(8, 4)
 
 [node name="Lights" type="Node3D" parent="."]
 
-[node name="OmniLight3D2" type="OmniLight3D" parent="Lights"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4, 2, 0)
-light_color = Color(1, 0.7093983, 0.4386851, 1)
-light_energy = 2.5
-shadow_enabled = true
-omni_range = 20.0
-
-[node name="OmniLight3D3" type="OmniLight3D" parent="Lights"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4, 2, 0)
-light_color = Color(1, 0.7093983, 0.4386851, 1)
-light_energy = 2.5
-shadow_enabled = true
-omni_range = 20.0
-
-[node name="OmniLight3D7" type="OmniLight3D" parent="Lights"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, -7)
-light_color = Color(1, 0.7093983, 0.4386851, 1)
-light_energy = 2.5
-shadow_enabled = true
-omni_range = 20.0
-
-[node name="OmniLight3D8" type="OmniLight3D" parent="Lights"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, 7)
-light_color = Color(1, 0.7093983, 0.4386851, 1)
-light_energy = 2.5
+[node name="OmniLight3D" type="OmniLight3D" parent="Lights"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3, 0)
+light_color = Color(1, 0.59334886, 0.45684177, 1)
 shadow_enabled = true
 omni_range = 20.0
 

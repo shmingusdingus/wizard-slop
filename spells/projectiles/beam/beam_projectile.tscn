@@ -4,14 +4,13 @@
 
 [sub_resource type="TubeTrailMesh" id="TubeTrailMesh_41ui4"]
 radius = 0.2
-section_length = 0.1
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_wdkij"]
-radius = 0.115
-height = 1.1
+radius = 0.2
+height = 2.2
 
 [node name="BeamProjectile" type="Area3D"]
-collision_layer = 2
+collision_mask = 5
 script = ExtResource("1_wdkij")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]

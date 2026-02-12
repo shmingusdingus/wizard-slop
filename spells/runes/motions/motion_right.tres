@@ -6,6 +6,6 @@
 script = ExtResource("1_206rr")
 id = "motion_right"
 display_name = "right"
-damage_modifier = 2.5
-speed_modifier = 2.0
+damage_modifier = 2.0
+speed_modifier = 1.5
 metadata/_custom_type_script = "uid://b753cmk6q0ugk"
