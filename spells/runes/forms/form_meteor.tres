@@ -8,5 +8,5 @@ script = ExtResource("1_j5ssr")
 projectile_scene = ExtResource("1_ux1j7")
 id = "form_meteor"
 display_name = "meteor"
-damage_modifier = 4.0
-speed_modifier = 0.25
+damage_modifier = 3.0
+speed_modifier = 0.5

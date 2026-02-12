@@ -7,5 +7,4 @@ script = ExtResource("1_q2y3v")
 id = "motion_straight"
 display_name = "straight"
 damage_modifier = 1.5
-speed_modifier = 2.5
 metadata/_custom_type_script = "uid://b753cmk6q0ugk"
